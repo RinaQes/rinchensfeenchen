@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Feenchen – Begegnungs- & Wissensort</title>
+  <meta name="description" content="Feenchen ist ein Begegnungs- und Wissensort mit kostenlosen Downloads, liebevoll gestalteten PDFs, Analysen und einer Wunsch-Werkstatt." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fdf9ff;
+      --accent: #caa6ff;
+      --accent2: #b5f5e3;
+      --text: #2b2236;
+      --gold: #f7e4b5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Nunito", system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at top, #fdf1ff 0%, #fdf9ff 45%, #ecf8ff 100%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .wrapper {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      position: relative;
+    }
+
+    .sparkles::before,
+    .sparkles::after {
+      content: "";
+      position: fixed;
+      inset: -50px;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.9) 0, rgba(255, 255, 255, 0) 55%),
+        radial-gradient(circle, rgba(247, 228, 181, 0.8) 0, rgba(247, 228, 181, 0) 55%);
+      background-size: 160px 160px, 220px 220px;
+      background-position: 0 0, 60px 80px;
+      mix-blend-mode: screen;
+      opacity: 0.55;
+      animation: glitter 16s linear infinite;
+      z-index: -1;
+    }
+
+    .sparkles::after {
+      animation-duration: 22s;
+      opacity: 0.35;
+    }
+
+    @keyframes glitter {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+
+      50% {
+        transform: translate3d(-40px, 30px, 0);
+      }
+
+      100% {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    header {
+      text-align: center;
+      padding: 3rem 1rem 2.5rem;
+      position: relative;
+    }
+
+    header h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.7rem, 5vw, 3.8rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    header h1 span {
+      display: inline-block;
+      background: linear-gradient(120deg, var(--accent), var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      position: relative;
+    }
+
+    header h1 span::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(-45deg, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.9) 50%, rgba(255, 255, 255, 0.1) 60%);
+      mix-blend-mode: screen;
+      background-size: 250% 250%;
+      animation: shimmer 6s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
+    header p {
+      max-width: 540px;
+      margin: 1.5rem auto 0;
+      font-size: 1.05rem;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-size: 0.95rem;
+      padding: 0.45rem 1.1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(202, 166, 255, 0.6);
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(6px);
+      color: var(--text);
+      transition: background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    nav a:hover {
+      background: linear-gradient(135deg, rgba(202, 166, 255, 0.22), rgba(181, 245, 227, 0.2));
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(43, 34, 54, 0.18);
+    }
+
+    section {
+      margin-top: 3rem;
+      padding: 2.4rem 1.75rem;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 60px rgba(43, 34, 54, 0.09);
+      position: relative;
+      overflow: hidden;
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(202, 166, 255, 0.35), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(181, 245, 227, 0.35), transparent 55%);
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    section h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.6rem;
+      margin-bottom: 0.75rem;
+    }
+
+    section p {
+      margin-bottom: 0.6rem;
+    }
+
+    ul {
+      margin-top: 0.5rem;
+      padding-left: 1.1rem;
+      list-style: "✶ ";
+    }
+
+    li+li {
+      margin-top: 0.25rem;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: rgba(43, 34, 54, 0.6);
+      margin-bottom: 0.4rem;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: rgba(43, 34, 54, 0.6);
+      margin-top: 3rem;
+      padding-bottom: 1rem;
+    }
+
+    @media (max-width: 640px) {
+      section {
+        padding: 2rem 1.35rem;
+      }
+    }
+
+    /* --- Zuhause: kostenlose Liste --- */
+    .freebie-list {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .freebie-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.8rem 1.1rem;
+      border-radius: 14px;
+      background: rgba(181, 245, 227, 0.18);
+      border: 1px solid rgba(181, 245, 227, 0.5);
+    }
+
+    .freebie-list li span.title {
+      font-weight: 600;
+    }
+
+    .freebie-list li span.meta {
+      display: block;
+      font-size: 0.85rem;
+      color: rgba(43, 34, 54, 0.6);
+      font-weight: 400;
+    }
+
+    /* --- Zuhause: kostenpflichtige Kacheln --- */
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.1rem;
+      margin-top: 1.25rem;
+    }
+
+    .shop-card {
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(202, 166, 255, 0.35);
+      border-radius: 18px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .shop-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(43, 34, 54, 0.12);
+    }
+
+    .shop-card .cover {
+      height: 90px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      background: linear-gradient(135deg, rgba(202, 166, 255, 0.35), rgba(247, 228, 181, 0.45));
+    }
+
+    .shop-card h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.05rem;
+    }
+
+    .shop-card .price {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .payment-methods {
+      font-size: 0.82rem;
+      color: rgba(43, 34, 54, 0.65);
+      margin-bottom: 0;
+    }
+
+    /* --- Buttons --- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.55rem 1.2rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(43, 34, 54, 0.15);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--gold));
+      color: var(--text);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid rgba(202, 166, 255, 0.6);
+      color: var(--text);
+    }
+
+    .zuhause-cta {
+      margin-top: 1.75rem;
+      text-align: center;
+    }
+
+    /* --- Badges (z.B. ABO, Buch, App) --- */
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(202, 166, 255, 0.3);
+      color: var(--text);
+      align-self: flex-start;
+    }
+
+    /* --- Empfehlungs- & Analyse-Karten teilen das Kachel-Layout --- */
+    .recommend-card .cover,
+    .analyse-card .cover {
+      background: linear-gradient(135deg, rgba(181, 245, 227, 0.45), rgba(247, 228, 181, 0.45));
+    }
+  </style>
+  <script src="./content.js" defer></script>
+  <script src="./render.js" defer></script>
+</head>
+
+<body class="sparkles">
+  <div class="wrapper">
+    <header>
+      <div class="tagline">Begegnung · Wissen · Feenmagie</div>
+      <h1><span>Feenchen</span></h1>
+      <p>
+        Feenchen ist ein leiser, verwunschener Ort für Menschen, die sich begegnen, miteinander lernen
+        und gemeinsam Neues erschaffen möchten. Hier darfst du deine eigene Magie wiederentdecken –
+        mitten im Alltag, ganz ohne Zauberstab.
+      </p>
+      <nav>
+        <a href="#ort">Der Ort</a>
+        <a href="#wissen">Wissen</a>
+        <a href="#begegnung">Begegnung</a>
+        <a href="#zuhause">Zuhause</a>
+        <a href="#analysen">Analysen</a>
+        <a href="#empfehlungen">Empfehlungen von Herzen</a>
+        <a href="#mitmachen">Mitmachen</a>
+      </nav>
+    </header>
+
+    <section id="ort">
+      <h2>Ein verwunschener Lernraum</h2>
+      <p>
+        Feenchen verbindet märchenhafte Atmosphäre mit klarer Einfachheit: wenig Technik, viel Raum, sanftes Licht
+        und natürliche Materialien, damit Gedanken zur Ruhe kommen und Neues entstehen kann.
+      </p>
+      <p>
+        Zwischen Feenlichtern, leisen Klängen und einer Prise Glitzer finden Workshops, Gespräche und stilles
+        Arbeiten ihren Platz – analog, achtsam und zugewandt.
+      </p>
+    </section>
+
+    <section id="wissen">
+      <h2>Wissen, das berührt – und Erfahrung, die man teilt</h2>
+      <p>
+        Feenchen versteht Wissen nicht als reine Information, sondern als lebendigen Funken: etwas, das dich bewegt,
+        stärkt und mit anderen verbindet.
+      </p>
+      <ul>
+        <li>Kleine Wissensinseln zu Gesundheit, Kreativität, Natur & innerem Wachstum.</li>
+        <li>Erzählrunden statt Folien: Geschichten, Erfahrungen, geteilte Erkenntnisse.</li>
+        <li>Material zum Anfassen, Ausprobieren und Weitertragen in deinen Alltag.</li>
+      </ul>
+    </section>
+
+    <section id="begegnung">
+      <h2>Ort für feine Begegnungen</h2>
+      <p>
+        Im Feenchen darf es still sein, lebendig, neugierig oder auch nachdenklich – Hauptsache echt.
+      </p>
+      <ul>
+        <li>Offene Treffen für Menschen, die sich auf Augenhöhe begegnen möchten.</li>
+        <li>Kreise zum Zuhören, Erzählen und Fragen stellen – ganz ohne Leistungsdruck.</li>
+        <li>Räume für Kooperationen, Projekte und spontane Feen‑Momente.</li>
+      </ul>
+    </section>
+
+    <section id="zuhause">
+      <h2>Feenchen für Zuhause</h2>
+      <p>
+        Ein kleines Stück Feenchen für dein Zuhause – zum Herunterladen, Ausdrucken und Verschenken.
+        Manches schenken wir dir gerne, anderes ist mit Liebe und Zeit gestaltet und deshalb Teil unseres
+        kleinen Feenchen‑Schatzes.
+      </p>
+      <p>
+        Unsere Kinderbücher gibt es auf zwei Wegen: fertig als Download zum direkten Mitnehmen –
+        oder ganz persönlich nach eurem Familienwunsch gestaltet, mit euren Namen, Lieblingsmotiven
+        und eurer eigenen kleinen Geschichte.
+      </p>
+
+      <p style="margin-top: 1.2rem;"><strong>Kostenlos zum Mitnehmen</strong></p>
+      <ul class="freebie-list" data-feenchen="kostenlos-vorschau"></ul>
+
+      <p style="margin-top: 1.75rem;"><strong>Aus dem Feenchen‑Schatz</strong></p>
+      <div class="shop-grid" data-feenchen="schatz-vorschau"></div>
+
+      <div class="zuhause-cta">
+        <a class="btn btn-primary" href="zuhause.html">Zur ganzen Feenchen‑Bibliothek &amp; App ✶</a>
+      </div>
+    </section>
+
+    <section id="analysen">
+      <h2>Persönliche Analysen</h2>
+      <p>
+        Für alle, die etwas genauer hinschauen möchten: persönliche, liebevoll erstellte Auswertungen –
+        zu deinem eigenen Rhythmus oder zu einer Situation, die dich gerade beschäftigt.
+      </p>
+      <div class="shop-grid" data-feenchen="analysen-vorschau"></div>
+      <div class="zuhause-cta">
+        <a class="btn btn-primary" href="zuhause.html#analysen">Mehr erfahren &amp; anfragen ✶</a>
+      </div>
+    </section>
+
+    <section id="empfehlungen">
+      <h2>Empfehlungen von Herzen</h2>
+      <p>
+        Bücher, Apps und kleine Schätze, die uns selbst begleiten und die wir von Herzen gerne weitergeben.
+      </p>
+      <div class="shop-grid" data-feenchen="empfehlungen-grid"></div>
+    </section>
+
+    <section id="mitmachen">
+      <h2>Dein Weg ins Feenchen</h2>
+      <p>
+        Ob als Gast, Gastgeberin, Kreativer, Wissensdurstige oder stiller Beobachter – Feenchen lebt von
+        den Menschen, die es mit ihrer eigenen Magie füllen.
+      </p>
+      <ul>
+        <li>Schreibe uns deine Idee für einen Kreis, Workshop oder stillen Raum.</li>
+        <li>Komm zu einem offenen Feenchen‑Abend und spüre, ob es sich nach Zuhause anfühlt.</li>
+        <li>Bleibe auf dem Laufenden über Termine, wenn du magst, per Newsletter oder Aushang.</li>
+      </ul>
+    </section>
+
+    <footer>
+      Feenchen · Ein Begegnungs- & Wissensort voller leiser Feenmagie.
+    </footer>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Feenchen für Zuhause – Bibliothek &amp; Wunsch-Werkstatt</title>
+  <meta name="description" content="Feenchen für Zuhause: kostenlose Downloads, kaufbare PDF-Schätze, persönliche Analysen und eine Wunsch-Werkstatt für individuelle Inhalte." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fdf9ff;
+      --accent: #caa6ff;
+      --accent2: #b5f5e3;
+      --text: #2b2236;
+      --gold: #f7e4b5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Nunito", system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at top, #fdf1ff 0%, #fdf9ff 45%, #ecf8ff 100%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .wrapper {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      position: relative;
+    }
+
+    .sparkles::before,
+    .sparkles::after {
+      content: "";
+      position: fixed;
+      inset: -50px;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.9) 0, rgba(255, 255, 255, 0) 55%),
+        radial-gradient(circle, rgba(247, 228, 181, 0.8) 0, rgba(247, 228, 181, 0) 55%);
+      background-size: 160px 160px, 220px 220px;
+      background-position: 0 0, 60px 80px;
+      mix-blend-mode: screen;
+      opacity: 0.55;
+      animation: glitter 16s linear infinite;
+      z-index: -1;
+    }
+
+    .sparkles::after {
+      animation-duration: 22s;
+      opacity: 0.35;
+    }
+
+    @keyframes glitter {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+
+      50% {
+        transform: translate3d(-40px, 30px, 0);
+      }
+
+      100% {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    header {
+      text-align: center;
+      padding: 3rem 1rem 2.5rem;
+      position: relative;
+    }
+
+    header h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.7rem, 5vw, 3.8rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    header h1 span {
+      display: inline-block;
+      background: linear-gradient(120deg, var(--accent), var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      position: relative;
+    }
+
+    header h1 span::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(-45deg, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.9) 50%, rgba(255, 255, 255, 0.1) 60%);
+      mix-blend-mode: screen;
+      background-size: 250% 250%;
+      animation: shimmer 6s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
+    header p {
+      max-width: 540px;
+      margin: 1.5rem auto 0;
+      font-size: 1.05rem;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-size: 0.95rem;
+      padding: 0.45rem 1.1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(202, 166, 255, 0.6);
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(6px);
+      color: var(--text);
+      transition: background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    nav a:hover {
+      background: linear-gradient(135deg, rgba(202, 166, 255, 0.22), rgba(181, 245, 227, 0.2));
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(43, 34, 54, 0.18);
+    }
+
+    section {
+      margin-top: 3rem;
+      padding: 2.4rem 1.75rem;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 60px rgba(43, 34, 54, 0.09);
+      position: relative;
+      overflow: hidden;
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(202, 166, 255, 0.35), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(181, 245, 227, 0.35), transparent 55%);
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    section h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.6rem;
+      margin-bottom: 0.75rem;
+    }
+
+    section p {
+      margin-bottom: 0.6rem;
+    }
+
+    ul {
+      margin-top: 0.5rem;
+      padding-left: 1.1rem;
+      list-style: "✶ ";
+    }
+
+    li+li {
+      margin-top: 0.25rem;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: rgba(43, 34, 54, 0.6);
+      margin-bottom: 0.4rem;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: rgba(43, 34, 54, 0.6);
+      margin-top: 3rem;
+      padding-bottom: 1rem;
+    }
+
+    @media (max-width: 640px) {
+      section {
+        padding: 2rem 1.35rem;
+      }
+    }
+
+    /* --- Zuhause: kostenlose Liste --- */
+    .freebie-list {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .freebie-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.8rem 1.1rem;
+      border-radius: 14px;
+      background: rgba(181, 245, 227, 0.18);
+      border: 1px solid rgba(181, 245, 227, 0.5);
+    }
+
+    .freebie-list li span.title {
+      font-weight: 600;
+    }
+
+    .freebie-list li span.meta {
+      display: block;
+      font-size: 0.85rem;
+      color: rgba(43, 34, 54, 0.6);
+      font-weight: 400;
+    }
+
+    /* --- Zuhause: kostenpflichtige Kacheln --- */
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.1rem;
+      margin-top: 1.25rem;
+    }
+
+    .shop-card {
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(202, 166, 255, 0.35);
+      border-radius: 18px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .shop-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(43, 34, 54, 0.12);
+    }
+
+    .shop-card .cover {
+      height: 90px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      background: linear-gradient(135deg, rgba(202, 166, 255, 0.35), rgba(247, 228, 181, 0.45));
+    }
+
+    .shop-card h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.05rem;
+    }
+
+    .shop-card .price {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .payment-methods {
+      font-size: 0.82rem;
+      color: rgba(43, 34, 54, 0.65);
+      margin-bottom: 0;
+    }
+
+    /* --- Buttons --- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.55rem 1.2rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(43, 34, 54, 0.15);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--gold));
+      color: var(--text);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid rgba(202, 166, 255, 0.6);
+      color: var(--text);
+    }
+
+    .zuhause-cta {
+      margin-top: 1.75rem;
+      text-align: center;
+    }
+
+    /* --- Badges (z.B. ABO, Buch, App) --- */
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(202, 166, 255, 0.3);
+      color: var(--text);
+    }
+
+    /* --- Empfehlungs- & Analyse-Karten teilen das Kachel-Layout --- */
+    .recommend-card .cover,
+    .analyse-card .cover {
+      background: linear-gradient(135deg, rgba(181, 245, 227, 0.45), rgba(247, 228, 181, 0.45));
+    }
+
+    .recommend-card .badge {
+      align-self: flex-start;
+    }
+
+    /* --- Zurück-Link --- */
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: rgba(43, 34, 54, 0.65);
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    /* --- Bibliothek: größere Kacheln-Variante --- */
+    .shop-grid.wide {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    /* --- Wunsch-Werkstatt (App-Demo) --- */
+    .studio {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-top: 1.25rem;
+    }
+
+    @media (min-width: 720px) {
+      .studio {
+        grid-template-columns: 1.1fr 1fr;
+      }
+    }
+
+    .studio-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .field label {
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      font-family: inherit;
+      font-size: 0.95rem;
+      padding: 0.6rem 0.8rem;
+      border-radius: 12px;
+      border: 1px solid rgba(202, 166, 255, 0.45);
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text);
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+
+    .price-options {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .price-option {
+      flex: 1;
+      min-width: 100px;
+      border: 1px solid rgba(202, 166, 255, 0.45);
+      border-radius: 14px;
+      padding: 0.7rem 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.7);
+      transition: background 150ms ease, border-color 150ms ease;
+    }
+
+    .price-option input {
+      display: none;
+    }
+
+    .price-option .label {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .price-option .sub {
+      font-size: 0.75rem;
+      color: rgba(43, 34, 54, 0.6);
+    }
+
+    .price-option:has(input:checked) {
+      background: linear-gradient(135deg, rgba(202, 166, 255, 0.35), rgba(247, 228, 181, 0.45));
+      border-color: var(--accent);
+    }
+
+    .studio-preview {
+      border-radius: 18px;
+      border: 1px dashed rgba(202, 166, 255, 0.5);
+      background: rgba(255, 255, 255, 0.75);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .studio-preview .preview-title {
+      font-family: "Playfair Display", serif;
+      font-size: 1.1rem;
+    }
+
+    .studio-preview .preview-meta {
+      font-size: 0.8rem;
+      color: rgba(43, 34, 54, 0.6);
+    }
+
+    .studio-preview .preview-body {
+      font-size: 0.92rem;
+      white-space: pre-line;
+    }
+
+    .studio-note {
+      font-size: 0.8rem;
+      color: rgba(43, 34, 54, 0.55);
+      margin-top: 0.5rem;
+    }
+  </style>
+  <script src="./content.js" defer></script>
+  <script src="./render.js" defer></script>
+</head>
+
+<body class="sparkles">
+  <div class="wrapper">
+    <header>
+      <a class="back-link" href="index.html">← Zurück zum Feenchen</a>
+      <div class="tagline">Bibliothek · Wünsche · Feenmagie</div>
+      <h1><span>Zuhause</span></h1>
+      <p>
+        Hier sammelt sich alles, was du dir aus dem Feenchen mit nach Hause nehmen kannst: kleine kostenlose
+        Geschenke, liebevoll gestaltete PDFs aus unserem Schatz – und die Wunsch‑Werkstatt, in der dein eigenes
+        Buch, Training oder Wissensblatt entsteht.
+      </p>
+      <nav>
+        <a href="#kostenlos">Kostenlos</a>
+        <a href="#schatz">Schatz</a>
+        <a href="#analysen">Analysen</a>
+        <a href="#werkstatt">Wunsch‑Werkstatt</a>
+        <a href="#empfehlungen">Empfehlungen von Herzen</a>
+      </nav>
+    </header>
+
+    <section id="kostenlos">
+      <h2>Kostenlos zum Mitnehmen</h2>
+      <p>
+        Kleine Funken Feenmagie, ganz ohne Bezahlung – frei zum Herunterladen, Ausdrucken und Weiterschenken.
+      </p>
+      <ul class="freebie-list" data-feenchen="kostenlos-liste"></ul>
+    </section>
+
+    <section id="schatz">
+      <h2>Der Feenchen‑Schatz</h2>
+      <p>
+        Liebevoll gestaltete PDFs zum Kaufen – für alle, die etwas Bleibendes, Schönes für ihr Zuhause oder als
+        Geschenk suchen.
+      </p>
+      <div class="shop-grid wide" data-feenchen="schatz-grid"></div>
+    </section>
+
+    <section id="analysen">
+      <h2>Persönliche Analysen</h2>
+      <p>
+        Für alle, die etwas genauer hinschauen möchten: persönliche, liebevoll erstellte Auswertungen –
+        zu deinem eigenen Rhythmus oder zu einer Situation, die dich gerade beschäftigt. Nach deiner
+        Anfrage melden wir uns mit den nächsten Schritten bei dir.
+      </p>
+      <div class="shop-grid wide" data-feenchen="analysen-grid"></div>
+    </section>
+
+    <section id="werkstatt">
+      <h2>Die Wunsch‑Werkstatt <span class="badge">ABO</span></h2>
+      <p>
+        In der Wunsch‑Werkstatt entsteht dein eigenes Feenchen‑Stück – ganz nach eurem Wunsch, eurer
+        Zielgruppe und eurem Budget. Besonders beliebt sind unsere personalisierten Kinderbücher: mit
+        den Namen eurer Kinder, ihren Lieblingsmotiven und einer Geschichte, die nur für sie geschrieben wird.
+      </p>
+      <p>
+        Daneben gestalten wir auch Kindertrainings, Wissensblätter und Achtsamkeitsübungen –
+        einmalig zum Mitnehmen oder fortlaufend im Abo.
+      </p>
+      <p style="font-size: 0.85rem; color: rgba(43,34,54,0.6);">
+        ✶ Die folgende Vorschau zeigt beispielhaft, wie deine Bestellung aussehen könnte. Die persönliche
+        Gestaltung folgt im Anschluss von Hand.
+      </p>
+
+      <div class="studio">
+        <form class="studio-form" id="studioForm" name="wunsch-werkstatt" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="wunsch-werkstatt" />
+          <p style="display: none;">
+            <label>Bitte leer lassen: <input name="bot-field" /></label>
+          </p>
+          <div class="field">
+            <label for="produktart">Was möchtest du erstellen?</label>
+            <select id="produktart" name="produktart">
+              <option value="Personalisiertes Kinderbuch">Personalisiertes Kinderbuch</option>
+              <option value="Personalisiertes Buch">Personalisiertes Buch</option>
+              <option value="Kindertraining">Kindertraining</option>
+              <option value="Wissensblatt">Wissensblatt</option>
+              <option value="Achtsamkeitsübung">Achtsamkeitsübung</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="zielgruppe">Für wen ist es gedacht?</label>
+            <input id="zielgruppe" name="zielgruppe" type="text" placeholder="z. B. Mira, 6 Jahre, liebt Drachen" />
+          </div>
+
+          <div class="field">
+            <label for="wunsch">Euer Wunsch / Thema</label>
+            <textarea id="wunsch" name="wunsch" placeholder="z. B. eine Geschichte über Mut beim Schwimmenlernen, in der Mira die Hauptrolle spielt"></textarea>
+          </div>
+
+          <div class="field">
+            <label>Preis‑Stufe</label>
+            <div class="price-options">
+              <label class="price-option">
+                <input type="radio" name="preis" value="Funke · 4,90 €" checked />
+                <div class="label">Funke</div>
+                <div class="sub">4,90 € / Stück</div>
+              </label>
+              <label class="price-option">
+                <input type="radio" name="preis" value="Glanz · 9,90 €" />
+                <div class="label">Glanz</div>
+                <div class="sub">9,90 € / Stück</div>
+              </label>
+              <label class="price-option">
+                <input type="radio" name="preis" value="Zauber · 16,90 €" />
+                <div class="label">Zauber</div>
+                <div class="sub">16,90 € / Stück</div>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="zahlungsmittel">Zahlungsmittel</label>
+            <select id="zahlungsmittel" name="zahlungsmittel">
+              <option value="PayPal">PayPal</option>
+              <option value="Überweisung">Überweisung</option>
+              <option value="Digistore24">Digistore24</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="align-self: flex-start;">
+            Vorschau erstellen ✶
+          </button>
+        </form>
+
+        <div class="studio-preview" id="studioPreview">
+          <div class="preview-title">Deine Vorschau erscheint hier</div>
+          <div class="preview-meta">Fülle das Formular aus und klicke auf „Vorschau erstellen“.</div>
+          <div class="preview-body"></div>
+        </div>
+      </div>
+
+      <p class="studio-note">
+        Hinweis: Diese Werkstatt ist aktuell eine Demo‑Ansicht. Nach dem Abschluss erhältst du dein
+        personalisiertes PDF innerhalb einiger Tage liebevoll von uns erstellt.
+      </p>
+    </section>
+
+    <section id="empfehlungen">
+      <h2>Empfehlungen von Herzen</h2>
+      <p>
+        Bücher, Apps und kleine Schätze, die uns selbst begleiten und die wir von Herzen gerne weitergeben.
+      </p>
+      <div class="shop-grid wide" data-feenchen="empfehlungen-grid"></div>
+    </section>
+
+    <footer>
+      Feenchen · Ein Begegnungs- & Wissensort voller leiser Feenmagie.
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('studioForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var produktart = document.getElementById('produktart').value;
+      var zielgruppe = document.getElementById('zielgruppe').value.trim();
+      var wunsch = document.getElementById('wunsch').value.trim();
+      var preis = document.querySelector('input[name="preis"]:checked').value;
+      var zahlungsmittel = document.getElementById('zahlungsmittel').value;
+
+      var preview = document.getElementById('studioPreview');
+      var titleEl = preview.querySelector('.preview-title');
+      var metaEl = preview.querySelector('.preview-meta');
+      var bodyEl = preview.querySelector('.preview-body');
+
+      var titel = produktart;
+      if (zielgruppe) {
+        titel += ' für ' + zielgruppe;
+      }
+
+      titleEl.textContent = titel;
+      metaEl.textContent = produktart + ' · ' + preis + ' · Zahlung: ' + zahlungsmittel;
+
+      var name = zielgruppe || 'dich';
+
+      // Produktartspezifischer Beispieltext
+      var beispiele = {
+        'Personalisiertes Kinderbuch':
+          '✶ Es war einmal ' + name + ', mutig und neugierig, mitten in einem Abenteuer, ' +
+          'das nur für ' + name + ' geschrieben wurde ...',
+        'Personalisiertes Buch':
+          '✶ Eine Geschichte, die ' + name + ' an die Hand nimmt und genau dort beginnt, ' +
+          'wo es gerade passt ...',
+        'Kindertraining':
+          '✶ Übung 1: Wir atmen wie ein schlafender Drache – langsam ein, langsam aus. ' +
+          'Ein Training, abgestimmt auf ' + name + ' ...',
+        'Wissensblatt':
+          '✶ Auf einer Seite gebündelt: das Wichtigste zu eurem Thema, klar und alltagstauglich ' +
+          'aufbereitet für ' + name + ' ...',
+        'Achtsamkeitsübung':
+          '✶ Eine kleine Pause für ' + name + ': drei ruhige Atemzüge, ein Moment nur für sich ...'
+      };
+
+      var textVorschau = '';
+      if (wunsch) {
+        textVorschau += 'Euer Wunsch: „' + wunsch + '“\n\n';
+      }
+      textVorschau += 'So könnte euer Ergebnis beginnen:\n\n';
+      textVorschau += (beispiele[produktart] || beispiele['Personalisiertes Buch']) + '\n\n';
+      textVorschau += '(Diese Vorschau ist ein Platzhalter. Das fertige Werk wird liebevoll von Hand ' +
+        'passend zu eurem Wunsch gestaltet.)';
+
+      bodyEl.textContent = textVorschau;
+    });
+  </script>
+</body>
+
+</html>
