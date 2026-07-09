@@ -354,6 +354,46 @@
     .analyse-card .cover {
       background: linear-gradient(135deg, rgba(181, 245, 227, 0.45), rgba(247, 228, 181, 0.45));
     }
+
+    /* --- Tools-Kacheln --- */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.1rem;
+      margin-top: 1.25rem;
+    }
+
+    .tool-card {
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(202, 166, 255, 0.35);
+      border-radius: 18px;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      text-align: left;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(43, 34, 54, 0.12);
+    }
+
+    .tool-card .cover {
+      font-size: 2rem;
+    }
+
+    .tool-card h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.1rem;
+    }
+
+    .tool-card p {
+      font-size: 0.9rem;
+      color: rgba(43, 34, 54, 0.75);
+      margin-bottom: 0.4rem;
+    }
   </style>
   <script src="./content.js" defer></script>
   <script src="./render.js" defer></script>
@@ -374,6 +414,7 @@
         <a href="#wissen">Wissen</a>
         <a href="#begegnung">Begegnung</a>
         <a href="#zuhause">Zuhause</a>
+        <a href="#tools">Tools</a>
         <a href="#analysen">Analysen</a>
         <a href="#empfehlungen">Empfehlungen von Herzen</a>
         <a href="#mitmachen">Mitmachen</a>
@@ -438,6 +479,28 @@
 
       <div class="zuhause-cta">
         <a class="btn btn-primary" href="zuhause.html">Zur ganzen Feenchen‑Bibliothek &amp; App ✶</a>
+      </div>
+    </section>
+
+    <section id="tools">
+      <h2>Feenchen Tools zum Ausprobieren</h2>
+      <p>
+        Zwei kleine Helferlein aus der Feenchen‑Werkstatt für alle, die mit Musik und Worten arbeiten –
+        die wichtigsten Infos immer kostenlos, mit optionaler einmaliger Freischaltung für alle Details.
+      </p>
+      <div class="tools-grid">
+        <div class="tool-card">
+          <div class="cover">🎵</div>
+          <h3>Song‑Beschreiber</h3>
+          <p>Analysiert deine Musikdatei (Tempo, Tonart, Stimmung) und erstellt einen fertigen Beschreibungstext + Tags für den Upload.</p>
+          <a class="btn btn-primary" href="song-beschreiber.html">Tool öffnen ✶</a>
+        </div>
+        <div class="tool-card">
+          <div class="cover">🪶</div>
+          <h3>Songtext &amp; Gedicht Tool</h3>
+          <p>Erstellt aus Thema, Stimmung und Reimschema einen fertigen Songtext- oder Gedicht‑Entwurf mit Strophen und Refrain.</p>
+          <a class="btn btn-primary" href="song-gedicht-tool.html">Tool öffnen ✶</a>
+        </div>
       </div>
     </section>
 
