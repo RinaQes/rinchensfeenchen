@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feenchen Songtext & Gedicht Tool</title>
+<meta name="author" content="RinchensFeenchen #rinarita">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Literata:opsz,wght@18..72,400;18..72,600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15121f;
+    --ink-soft:#1f1b2e;
+    --parchment:#efe6d8;
+    --parchment-dim:#e2d7c4;
+    --gold:#c9a15a;
+    --gold-bright:#e0bd7d;
+    --moss:#6a8567;
+    --rose:#c98a95;
+    --text-on-ink:#efe6d8;
+    --text-muted:#a89cc2;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at 20% -10%, rgba(201,161,90,0.16), transparent 55%),
+      radial-gradient(ellipse at 90% 10%, rgba(201,138,149,0.12), transparent 50%),
+      var(--ink);
+    color:var(--text-on-ink);
+    font-family:'Literata', serif;
+    line-height:1.6;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:32px 20px 80px;}
+  header{text-align:center;margin-bottom:8px;}
+  header img{width:72px;height:72px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 3px var(--gold);}
+  h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:2.4rem;
+    margin:14px 0 4px;
+    letter-spacing:0.01em;
+  }
+  .byline{color:var(--text-muted);font-size:0.85rem;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:22px;}
+  .lede{color:var(--parchment-dim);font-size:1rem;max-width:60ch;margin:0 auto 28px;text-align:center;}
+  .lede strong{color:var(--gold-bright);}
+
+  .adslot{
+    border:1px dashed rgba(239,230,216,0.25);
+    border-radius:var(--radius);
+    padding:14px;
+    text-align:center;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.72rem;
+    color:var(--text-muted);
+    margin:24px 0;
+  }
+
+  .card{
+    background:var(--ink-soft);
+    border:1px solid rgba(201,161,90,0.18);
+    border-radius:var(--radius);
+    padding:22px 22px 24px;
+    margin-bottom:22px;
+  }
+  .card h2{
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.4rem;
+    font-weight:600;
+    color:var(--gold-bright);
+    margin:0 0 14px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .free-badge{
+    display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.62rem;
+    letter-spacing:0.06em;text-transform:uppercase;color:var(--moss);
+    border:1px solid var(--moss);border-radius:100px;padding:2px 8px;margin-left:6px;
+  }
+  .lock-badge{
+    display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.62rem;
+    letter-spacing:0.06em;text-transform:uppercase;color:var(--rose);
+    border:1px solid var(--rose);border-radius:100px;padding:2px 8px;margin-left:6px;
+  }
+
+  label{display:block;font-size:0.85rem;color:var(--parchment-dim);margin:14px 0 6px;}
+  label:first-child{margin-top:0;}
+  input[type=text], select, textarea{
+    width:100%;
+    background:rgba(239,230,216,0.05);
+    border:1px solid rgba(239,230,216,0.2);
+    color:var(--text-on-ink);
+    font-family:'Literata', serif;
+    font-size:0.95rem;
+    padding:10px 12px;
+    border-radius:8px;
+  }
+  select{appearance:none;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:520px){.grid2{grid-template-columns:1fr;}}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;justify-content:center;
+    background:var(--gold);color:var(--ink);
+    border:none;border-radius:100px;
+    font-family:'Literata', serif;font-weight:600;font-size:0.95rem;
+    padding:12px 22px;cursor:pointer;margin-top:18px;width:100%;
+    transition:transform .15s ease, background .15s ease;
+  }
+  .btn:hover{background:var(--gold-bright);}
+  .btn:active{transform:scale(0.98);}
+  .btn.secondary{
+    background:transparent;color:var(--gold-bright);border:1px solid var(--gold);
+  }
+  .btn.small{width:auto;padding:8px 16px;font-size:0.82rem;margin-top:0;}
+
+  .stanza{
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.25rem;
+    color:var(--parchment);
+    white-space:pre-line;
+    margin:12px 0;
+    padding:14px 16px;
+    background:rgba(201,161,90,0.06);
+    border-left:3px solid var(--gold);
+    border-radius:4px;
+  }
+  .stanza.refrain{border-left-color:var(--rose);}
+  .stanza .tag{
+    display:block;font-family:'JetBrains Mono',monospace;font-size:0.62rem;
+    letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);
+    margin-bottom:6px;
+  }
+
+  .lockwall{
+    position:relative;
+    padding:18px;
+    border-radius:var(--radius);
+    background:rgba(201,138,149,0.06);
+    border:1px solid rgba(201,138,149,0.3);
+    text-align:center;
+    font-size:0.9rem;
+    color:var(--parchment-dim);
+  }
+  .lockwall .price{color:var(--gold-bright);font-weight:600;font-family:'JetBrains Mono',monospace;}
+
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;}
+  .stat{
+    flex:1;min-width:120px;
+    background:rgba(239,230,216,0.05);
+    border-radius:10px;padding:10px 12px;
+    font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-muted);
+  }
+  .stat b{display:block;font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--gold-bright);font-weight:600;}
+
+  .warn{
+    font-size:0.78rem;color:var(--rose);background:rgba(201,138,149,0.08);
+    border:1px solid rgba(201,138,149,0.25);border-radius:8px;padding:8px 10px;margin-top:14px;
+  }
+
+  details{margin-top:26px;}
+  summary{cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--gold-bright);font-weight:600;}
+  .setup ol{padding-left:20px;color:var(--parchment-dim);font-size:0.88rem;}
+  .setup li{margin-bottom:12px;}
+  .setup code{background:rgba(239,230,216,0.08);padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--gold-bright);}
+  .setup a{color:var(--gold-bright);}
+  .note{font-size:0.78rem;color:var(--text-muted);margin-top:10px;}
+
+  footer{text-align:center;margin-top:40px;font-size:0.75rem;color:var(--text-muted);}
+  footer .brand{color:var(--gold-bright);}
+
+  #cookie-banner{
+    position:fixed;left:0;right:0;bottom:0;
+    background:var(--ink-soft);border-top:1px solid rgba(201,161,90,0.3);
+    padding:14px 20px;display:none;z-index:50;
+    font-size:0.82rem;color:var(--parchment-dim);
+  }
+  #cookie-banner .row{max-width:760px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:12px;justify-content:space-between;}
+  #cookie-banner button{border-radius:100px;padding:8px 16px;font-size:0.8rem;cursor:pointer;border:1px solid var(--gold);background:transparent;color:var(--parchment);}
+  #cookie-banner button.accept{background:var(--gold);color:var(--ink);border:none;}
+
+  .copy-row{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <img src="logo.png" alt="RinchensFeenchen Logo" onerror="this.style.display='none'">
+    <h1>🪶 Feenchen Songtext & Gedicht</h1>
+    <div class="byline">Hersteller & Entwicklung: RinchensFeenchen · #rinarita</div>
+  </header>
+
+  <p class="lede">
+    Erstellt aus deinem <strong>Thema, deiner Stimmung und deinem Reimschema</strong> einen fertigen
+    Songtext- oder Gedicht-Entwurf – Strophen, Refrain, Silbenmaß und Reimschema-Check inklusive.
+    Alles wird lokal in deinem Browser erzeugt, es verlässt kein Text dein Gerät.
+  </p>
+
+  <div class="adslot" id="ad-top">📢 Werbefläche (Google AdSense) – wird aktiv, sobald RinchensFeenchen die Einrichtung abgeschlossen hat</div>
+
+  <div class="card">
+    <h2>Angaben zum Text <span class="free-badge">kostenlos</span></h2>
+
+    <label for="titel">Titel / zentrales Thema</label>
+    <input type="text" id="titel" placeholder="z. B. „Sommerregen“, „Abschied“, „Neuanfang“">
+
+    <div class="grid2">
+      <div>
+        <label for="typ">Textart</label>
+        <select id="typ">
+          <option value="song">Songtext (Strophe & Refrain)</option>
+          <option value="gedicht">Gedicht (freie Strophen)</option>
+        </select>
+      </div>
+      <div>
+        <label for="stimmung">Stimmung</label>
+        <select id="stimmung">
+          <option value="vertraeumt">Verträumt / melancholisch</option>
+          <option value="froehlich">Fröhlich / euphorisch</option>
+          <option value="kraftvoll">Kraftvoll / trotzig</option>
+          <option value="hoffnungsvoll">Hoffnungsvoll / warm</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div>
+        <label for="reim">Reimschema</label>
+        <select id="reim">
+          <option value="paar">Paarreim (AABB)</option>
+          <option value="kreuz">Kreuzreim (ABAB)</option>
+          <option value="umarmend">Umarmender Reim (ABBA)</option>
+        </select>
+      </div>
+      <div>
+        <label for="laenge">Umfang</label>
+        <select id="laenge">
+          <option value="kurz">Kurz (2 Strophen)</option>
+          <option value="mittel" selected>Mittel (3 Strophen)</option>
+          <option value="lang">Lang (4 Strophen)</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn" onclick="Feenchen.generieren()">✦ Text erzeugen</button>
+    <p class="note">Jede Erzeugung liefert eine neue Variante – gefällt dir eine Zeile nicht, einfach nochmal klicken.</p>
+  </div>
+
+  <div class="card" id="ergebnis-card" style="display:none;">
+    <h2>Die 3 wichtigsten Infos <span class="free-badge">kostenlos</span></h2>
+
+    <div class="stanza" id="preview-stanza"></div>
+
+    <div class="stats">
+      <div class="stat"><b id="stat-silben">–</b>Ø Silben / Zeile</div>
+      <div class="stat"><b id="stat-reim">–</b>Reimschema</div>
+      <div class="stat"><b id="stat-stimmung">–</b>Stimmungs-Check</div>
+    </div>
+
+    <details style="margin-top:18px;">
+      <summary>Vollständiger Entwurf & Kopierfunktion <span class="lock-badge">Premium</span></summary>
+
+      <div id="premium-locked" class="lockwall" style="margin-top:14px;">
+        🔒 Der vollständige Text (alle Strophen{{REFRAIN_HINWEIS}}), die Kopierfunktion und der Export als TXT/PDF
+        sind Teil des einmaligen Premium-Freischalters (<span class="price" id="preisAnzeige">2,99&nbsp;€</span>, kein Abo).
+        <div id="paypal-button-container" style="margin-top:14px;"></div>
+        <p class="warn">⚠️ Die Bezahlung ist von RinchensFeenchen noch nicht final eingerichtet (Test-Modus). Siehe „Einrichtung“ ganz unten.</p>
+        <button class="btn secondary small" onclick="Feenchen.testFreischalten()">Test-Modus: trotzdem freischalten</button>
+      </div>
+
+      <div id="premium-content" style="display:none;margin-top:14px;">
+        <div id="voller-text"></div>
+        <div class="copy-row">
+          <button class="btn small" onclick="Feenchen.textKopieren()">Text kopieren</button>
+          <button class="btn small secondary" onclick="Feenchen.alsTxtExport()">Als TXT exportieren</button>
+          <button class="btn small secondary" onclick="window.print()">Als PDF drucken/speichern</button>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div class="adslot" id="ad-bottom">📢 Werbefläche (Google AdSense) – wird aktiv, sobald RinchensFeenchen die Einrichtung abgeschlossen hat</div>
+
+  <details class="setup">
+    <summary>⚙️ Einrichtung für RinchensFeenchen (einmalig, nur für dich als Betreiber:in)</summary>
+    <ol>
+      <li><strong>Logo:</strong> Lege deine echte Logo-Bilddatei als <code>logo.png</code> in denselben Ordner wie diese HTML-Datei – idealerweise dieselbe Datei, die du schon beim Song-Beschreiber verwendest (überschreibt den Platzhalter automatisch).</li>
+      <li><strong>PayPal-Einmalzahlung aktivieren:</strong> Falls du sie beim Song-Beschreiber schon eingerichtet hast, kannst du dieselbe PayPal-Business-App wiederverwenden. Sonst: im <a href="https://developer.paypal.com/dashboard/applications" target="_blank" rel="noopener">PayPal Developer Dashboard</a> eine App anlegen → Client-ID kopieren und im Code unten bei <code>PAYPAL_CLIENT_ID</code> eintragen. Preis bei <code>PREMIUM_PRICE</code> nach Wunsch anpassen. Kein Abo-Plan nötig.</li>
+      <li><strong>Werbung (optional):</strong> Bei <a href="https://adsense.google.com" target="_blank" rel="noopener">Google AdSense</a> anmelden (braucht eine online gehostete Seite, Prüfung dauert), Publisher-ID kopieren und im Code bei <code>ADSENSE_CLIENT_ID</code> eintragen. Erst dann ersetzen die echten Anzeigen die Platzhalter-Felder, und die Cookie-Leiste erscheint automatisch.</li>
+      <li><strong>Online stellen:</strong> Am einfachsten in denselben Ordner wie den Song-Beschreiber legen, z. B. bei GitHub Pages oder Netlify (HTTPS nötig, funktioniert nicht über eine lokal geöffnete Datei), z. B. unter <code>/rinchensfeenchen/songtext-gedicht.html</code>.</li>
+      <li><strong>Play Store:</strong> Mit der gehosteten HTTPS-Adresse auf <a href="https://www.pwabuilder.com" target="_blank" rel="noopener">pwabuilder.com</a> ein Android-Paket (.aab) erzeugen lassen (kostenlos) → in der <a href="https://play.google.com/console" target="_blank" rel="noopener">Google Play Console</a> (einmalig 25$ Entwicklergebühr, eigener Google-Account nötig) hochladen.</li>
+    </ol>
+    <p class="note">Hinweis: Die Freischaltung merkt sich der Browser lokal (ohne eigenen Server) – die einfachste Lösung ohne Backend, aber technisch versierte Nutzer:innen könnten sie umgehen. Für einen fälschungssicheren Kaufnachweis wäre später ein kleiner Server nötig, der die PayPal-Zahlung serverseitig prüft.</p>
+  </details>
+
+  <footer>
+    © RinchensFeenchen · #rinarita — Feenchen Songtext & Gedicht Tool
+  </footer>
+</div>
+
+<div id="cookie-banner">
+  <div class="row">
+    <span>Diese Seite kann Werbung von Google AdSense einblenden, was Cookies zur Personalisierung nutzt. Damit bist du einverstanden?</span>
+    <span style="display:flex;gap:8px;">
+      <button onclick="Feenchen.cookie(false)">Ablehnen</button>
+      <button class="accept" onclick="Feenchen.cookie(true)">Akzeptieren</button>
+    </span>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   FEENCHEN SONGTEXT & GEDICHT — Konfiguration für RinchensFeenchen
+   ============================================================ */
+const PAYPAL_CLIENT_ID = "AWiRiuOyFKLpjrH0FzIMoWnbWV6GrUfr4G1B-7Q9szrZAvHid3cS0l96rvcndYP5i0-heVGCRfREzl_J";
+const PREMIUM_PRICE = "2.99"; // in EUR, ohne Abo
+const ADSENSE_CLIENT_ID = "ca-pub-DEINE_ADSENSE_ID_HIER";
+
+function paypalKonfiguriert() {
+  return !PAYPAL_CLIENT_ID.includes("DEIN_PAYPAL_CLIENT_ID_HIER");
+}
+
+/* ============================================================
+   Wortbänke: pro Stimmung zwei sich reimende Zeilen-Familien.
+   {THEMA} wird durch den Titel/das Thema des Nutzers ersetzt.
+   ============================================================ */
+const BAENKE = {
+  vertraeumt: {
+    label: "Verträumt / melancholisch",
+    A: [
+      "Im {THEMA} verliert sich das Licht,",
+      "dein Name malt sich ins Gesicht,",
+      "die Nacht erzählt von ihrer Pflicht,",
+      "ein Traum zerbricht, ein Traum zerbricht,",
+      "kein Wort, das diese Stille bricht,",
+      "so schreib ich leise dies Gedicht."
+    ],
+    B: [
+      "Wir schweben weit, Hand in Hand,",
+      "vorbei an jedem fremden Land,",
+      "die Zeit zerrinnt wie loser Sand,",
+      "am Horizont, halb unbekannt,",
+      "ein Flüstern zieht durchs stille Land,",
+      "gehalten nur von einem Band."
+    ]
+  },
+  froehlich: {
+    label: "Fröhlich / euphorisch",
+    A: [
+      "Die Sonne wirft ihr goldnes Schein,",
+      "wir tanzen heute, ganz allein,",
+      "kein Kummer passt in dies Gebein,",
+      "wir lassen einfach Kind uns sein,",
+      "das Lachen bricht wie Sonnenschein,",
+      "heut soll die Welt uns Bühne sein."
+    ],
+    B: [
+      "Wir feiern heut das {THEMA}-Fest,",
+      "die Sorgen bleiben auf dem Rest,",
+      "die Musik hält uns eng und fest,",
+      "solang die Nacht noch Farben lässt,",
+      "wir bau'n uns unser eignes Nest,",
+      "und wissen: heut wird's unser Bestes Fest."
+    ]
+  },
+  kraftvoll: {
+    label: "Kraftvoll / trotzig",
+    A: [
+      "Wir brechen auf mit voller Macht,",
+      "kein Zweifel, der uns kleiner macht,",
+      "wir tragen Feuer in der Nacht,",
+      "und niemand hat uns kleingemacht,",
+      "die Wut, die uns zu Kämpfern macht,",
+      "wir halten stand bis tief in die Nacht."
+    ],
+    B: [
+      "Wir stehen fest an dieser Wand,",
+      "kein Sturm reißt unsren festen Stand,",
+      "wir halten aus, Hand in Hand,",
+      "trotz jedem Druck, ganz unverwandt,",
+      "das {THEMA} baut uns eine Wand,",
+      "und niemand nimmt uns diesen Stand."
+    ]
+  },
+  hoffnungsvoll: {
+    label: "Hoffnungsvoll / warm",
+    A: [
+      "Ein neuer Tag, ein neuer Morgen,",
+      "wir lassen los von alten Sorgen,",
+      "im {THEMA} fühl ich mich geborgen,",
+      "kein Gestern hält mich mehr verborgen,",
+      "ich glaub an das, was kommt noch morgen,",
+      "in deinen Armen bin ich geborgen."
+    ],
+    B: [
+      "Auf festem Grund, aus tiefstem Grund,",
+      "ich sag es dir aus vollem Mund,",
+      "die Welt wird bald schon wieder bunt,",
+      "wir schaffen das in dieser Stund,",
+      "ich glaub an dich aus tiefstem Grund,",
+      "wir halten durch bis in die Stund."
+    ]
+  }
+};
+
+const REFRAIN_ZEILEN = {
+  vertraeumt: ["Bleib bei mir, solang die Sterne wachen,", "wir müssen aus dem Traum nichts machen,", "im {THEMA} sind wir längst zuhaus,", "die Nacht hält uns geborgen aus."],
+  froehlich: ["Heut gehört die ganze Welt uns beiden,", "wir lassen keinen Moment mehr entgleiten,", "das {THEMA} trägt uns weit hinaus,", "wir feiern, bis das Licht geht aus."],
+  kraftvoll: ["Wir geben nicht auf, ganz gleich was kommt,", "solang das Feuer in uns brennt und glommt,", "das {THEMA} hat uns nie besiegt,", "weil unser Wille niemals liegt."],
+  hoffnungsvoll: ["Es wird gut, ich spür es tief in mir,", "das {THEMA} öffnet uns die Tür,", "wir gehen weiter, Schritt für Schritt,", "und keiner geht den Weg allein mit."]
+};
+
+/* ============================================================
+   Kernlogik
+   ============================================================ */
+let letzterEntwurf = null;
+
+function pick(arr, n, exclude) {
+  const pool = arr.map((v,i)=>i).filter(i => !exclude.includes(i));
+  const out = [];
+  while (out.length < n && pool.length) {
+    const idx = pool.splice(Math.floor(Math.random()*pool.length), 1)[0];
+    out.push(idx);
+  }
+  return out;
+}
+
+function baueStrophe(stimmungKey, reimSchema, thema, gebrauchtA, gebrauchtB) {
+  const bank = BAENKE[stimmungKey];
+  const idxA = pick(bank.A, 2, gebrauchtA);
+  const idxB = pick(bank.B, 2, gebrauchtB);
+  gebrauchtA.push(...idxA);
+  gebrauchtB.push(...idxB);
+  const a = idxA.map(i => bank.A[i]);
+  const b = idxB.map(i => bank.B[i]);
+
+  let zeilen;
+  if (reimSchema === "paar") zeilen = [a[0], a[1], b[0], b[1]];
+  else if (reimSchema === "kreuz") zeilen = [a[0], b[0], a[1], b[1]];
+  else zeilen = [a[0], b[0], b[1], a[1]]; // umarmend
+
+  return zeilen.map(z => z.replaceAll("{THEMA}", thema)).join("\n");
+}
+
+function baueRefrain(stimmungKey, thema) {
+  const zeilen = REFRAIN_ZEILEN[stimmungKey];
+  return zeilen.map(z => z.replaceAll("{THEMA}", thema)).join("\n");
+}
+
+function silbenSchaetzung(text) {
+  const zeilen = text.split("\n").filter(z => z.trim().length);
+  let summe = 0;
+  zeilen.forEach(z => {
+    const treffer = z.toLowerCase().match(/[aeiouyäöü]+/g);
+    summe += treffer ? treffer.length : 0;
+  });
+  return zeilen.length ? (summe / zeilen.length).toFixed(1) : "–";
+}
+
+const Feenchen = {
+  generieren() {
+    const titelRoh = document.getElementById("titel").value.trim();
+    const thema = titelRoh || "diesem Moment";
+    const typ = document.getElementById("typ").value;
+    const stimmungKey = document.getElementById("stimmung").value;
+    const reim = document.getElementById("reim").value;
+    const laenge = document.getElementById("laenge").value;
+    const anzahlStrophen = laenge === "kurz" ? 2 : laenge === "lang" ? 4 : 3;
+
+    const gebrauchtA = [], gebrauchtB = [];
+    const strophen = [];
+    for (let i = 0; i < anzahlStrophen; i++) {
+      if (gebrauchtA.length + 2 > BAENKE[stimmungKey].A.length) gebrauchtA.length = 0;
+      if (gebrauchtB.length + 2 > BAENKE[stimmungKey].B.length) gebrauchtB.length = 0;
+      strophen.push(baueStrophe(stimmungKey, reim, thema, gebrauchtA, gebrauchtB));
+    }
+    const refrain = typ === "song" ? baueRefrain(stimmungKey, thema) : null;
+
+    letzterEntwurf = { titelRoh, thema, typ, stimmungKey, reim, strophen, refrain };
+
+    // Vorschau (kostenlos): nur erste Strophe
+    document.getElementById("ergebnis-card").style.display = "block";
+    document.getElementById("preview-stanza").innerHTML =
+      '<span class="tag">Strophe 1 · Vorschau</span>' + strophen[0];
+
+    document.getElementById("stat-silben").textContent = silbenSchaetzung(strophen[0]);
+    const reimLabel = reim === "paar" ? "AABB" : reim === "kreuz" ? "ABAB" : "ABBA";
+    document.getElementById("stat-reim").textContent = reimLabel;
+    document.getElementById("stat-stimmung").textContent = BAENKE[stimmungKey].label.split(" / ")[0];
+
+    const lockText = document.getElementById("premium-locked");
+    if (!lockText.dataset.original) lockText.dataset.original = lockText.innerHTML;
+    const refrainHinweis = typ === "song" ? " inkl. Refrain" : "";
+    lockText.innerHTML = lockText.dataset.original.replace("{{REFRAIN_HINWEIS}}", refrainHinweis);
+
+    document.getElementById("preisAnzeige").textContent = PREMIUM_PRICE.replace(".", ",") + " €";
+
+    // Testmodus-Hinweis & Freischalt-Button nur zeigen, solange PayPal noch nicht konfiguriert ist
+    if (paypalKonfiguriert()) {
+      const warnEl = lockText.querySelector(".warn");
+      const testBtn = lockText.querySelector("button.secondary");
+      if (warnEl) warnEl.style.display = "none";
+      if (testBtn) testBtn.style.display = "none";
+    }
+
+    // Premium-Bereich zurücksetzen, falls schon freigeschaltet in dieser Sitzung
+    if (localStorage.getItem("feenchen_songtext_premium") === "true") {
+      this.premiumAnzeigen();
+    } else {
+      document.getElementById("premium-locked").style.display = "block";
+      document.getElementById("premium-content").style.display = "none";
+    }
+
+    this.paypalRendern();
+  },
+
+  vollenTextRendern() {
+    if (!letzterEntwurf) return;
+    const { titelRoh, strophen, refrain, typ } = letzterEntwurf;
+    let html = "";
+    if (titelRoh) html += `<div class="stanza"><span class="tag">Titel</span>${titelRoh}</div>`;
+
+    if (typ === "gedicht") {
+      strophen.forEach((s, i) => {
+        html += `<div class="stanza"><span class="tag">Strophe ${i+1}</span>${s}</div>`;
+      });
+    } else {
+      strophen.forEach((s, i) => {
+        html += `<div class="stanza"><span class="tag">Strophe ${i+1}</span>${s}</div>`;
+        html += `<div class="stanza refrain"><span class="tag">Refrain</span>${refrain}</div>`;
+      });
+    }
+    document.getElementById("voller-text").innerHTML = html;
+  },
+
+  premiumAnzeigen() {
+    document.getElementById("premium-locked").style.display = "none";
+    document.getElementById("premium-content").style.display = "block";
+    this.vollenTextRendern();
+  },
+
+  testFreischalten() {
+    localStorage.setItem("feenchen_songtext_premium", "true");
+    this.premiumAnzeigen();
+  },
+
+  textKopieren() {
+    if (!letzterEntwurf) return;
+    const { titelRoh, strophen, refrain, typ } = letzterEntwurf;
+    let plain = titelRoh ? titelRoh + "\n\n" : "";
+    if (typ === "gedicht") {
+      plain += strophen.join("\n\n");
+    } else {
+      strophen.forEach(s => { plain += s + "\n\n" + refrain + "\n\n"; });
+    }
+    navigator.clipboard.writeText(plain.trim()).then(() => {
+      alert("Text wurde in die Zwischenablage kopiert.");
+    });
+  },
+
+  alsTxtExport() {
+    if (!letzterEntwurf) return;
+    const { titelRoh, strophen, refrain, typ } = letzterEntwurf;
+    let plain = titelRoh ? titelRoh + "\n\n" : "";
+    if (typ === "gedicht") {
+      plain += strophen.join("\n\n");
+    } else {
+      strophen.forEach(s => { plain += s + "\n\n" + refrain + "\n\n"; });
+    }
+    const blob = new Blob([plain.trim()], { type: "text/plain;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = (titelRoh || "feenchen-text") + ".txt";
+    a.click();
+  },
+
+  paypalRendern() {
+    const container = document.getElementById("paypal-button-container");
+    if (!container || localStorage.getItem("feenchen_songtext_premium") === "true") return;
+    container.innerHTML = "";
+    if (!window.paypal) {
+      const script = document.createElement("script");
+      script.src = `https://www.paypal.com/sdk/js?client-id=${PAYPAL_CLIENT_ID}&currency=EUR&intent=capture`;
+      script.onload = () => Feenchen.paypalButtonZeichnen();
+      script.onerror = () => {
+        container.innerHTML = '<p class="note">PayPal konnte nicht geladen werden (Client-ID noch nicht eingerichtet?).</p>';
+      };
+      document.body.appendChild(script);
+    } else {
+      this.paypalButtonZeichnen();
+    }
+  },
+
+  paypalButtonZeichnen() {
+    const container = document.getElementById("paypal-button-container");
+    if (!container || !window.paypal) return;
+    container.innerHTML = "";
+    window.paypal.Buttons({
+      style: { layout: "vertical", color: "gold", shape: "pill", label: "pay" },
+      createOrder: (data, actions) => actions.order.create({
+        purchase_units: [{ amount: { value: PREMIUM_PRICE, currency_code: "EUR" }, description: "Feenchen Songtext & Gedicht – Premium-Freischaltung" }]
+      }),
+      onApprove: (data, actions) => actions.order.capture().then(() => {
+        localStorage.setItem("feenchen_songtext_premium", "true");
+        Feenchen.premiumAnzeigen();
+      }),
+      onError: (err) => {
+        console.error(err);
+        alert("Bei der Zahlung ist ein Fehler aufgetreten. Bitte später erneut versuchen.");
+      }
+    }).render("#paypal-button-container");
+  },
+
+  cookie(akzeptiert) {
+    localStorage.setItem("feenchen_songtext_cookies", akzeptiert ? "accepted" : "declined");
+    document.getElementById("cookie-banner").style.display = "none";
+    if (akzeptiert) Feenchen.adsenseLaden();
+  },
+
+  adsenseLaden() {
+    if (!ADSENSE_CLIENT_ID.includes("DEINE_ADSENSE_ID_HIER")) {
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`;
+      script.crossOrigin = "anonymous";
+      document.head.appendChild(script);
+      ["ad-top", "ad-bottom"].forEach(id => {
+        const el = document.getElementById(id);
+        el.innerHTML = `<ins class="adsbygoogle" style="display:block" data-ad-client="${ADSENSE_CLIENT_ID}" data-ad-slot="0000000000" data-ad-format="auto" data-full-width-responsive="true"></ins>`;
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      });
+    }
+  },
+
+  init() {
+    const consent = localStorage.getItem("feenchen_songtext_cookies");
+    if (!consent && !ADSENSE_CLIENT_ID.includes("DEINE_ADSENSE_ID_HIER")) {
+      document.getElementById("cookie-banner").style.display = "block";
+    } else if (consent === "accepted") {
+      this.adsenseLaden();
+    }
+  }
+};
+
+document.addEventListener("DOMContentLoaded", () => Feenchen.init());
+</script>
+</body>
+</html>
