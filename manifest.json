@@ -1,0 +1,12 @@
+{
+  "name": "RinchensFeenchen Song-Beschreiber",
+  "short_name": "Feenchen Songs",
+  "description": "Analysiert Songs (BPM, Tonart, Stimmung) und erstellt Beschreibungen für den Upload. Von RinchensFeenchen #rinarita.",
+  "start_url": "song-beschreiber.html",
+  "display": "standalone",
+  "background_color": "#0d0d17",
+  "theme_color": "#6b4fa0",
+  "icons": [
+    { "src": "logo.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

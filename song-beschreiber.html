@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="RinchensFeenchen #rinarita">
+<title>Feenchen Song-Beschreiber</title>
+<link rel="manifest" href="manifest.json">
+<style>
+  :root { --gold: #d4af37; --purple: #6b4fa0; --bg: #0d0d17; }
+  body { font-family: system-ui, Arial, sans-serif; max-width: 780px; margin: 30px auto; padding: 0 16px; color: #222; line-height: 1.5; }
+  .hint { color: #666; font-size: 0.9em; }
+  header.brand { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; }
+  header.brand img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }
+  header.brand h1 { margin: 0; font-size: 1.5em; }
+  .brandline { color: var(--purple); font-size: 0.85em; font-weight: bold; }
+  #dropzone { border: 2px dashed #999; border-radius: 10px; padding: 30px; text-align: center; margin: 20px 0; background: #fafafa; }
+  #dropzone.drag { background: #eef6ff; border-color: #3b82f6; }
+  input[type=text] { width: 100%; box-sizing: border-box; padding: 8px; margin: 4px 0 12px 0; }
+  textarea { width: 100%; box-sizing: border-box; padding: 8px; font-family: inherit; }
+  button { padding: 8px 16px; cursor: pointer; margin-right: 8px; }
+  #status { margin: 10px 0; font-weight: bold; }
+  ul#features { background: #f5f5f5; padding: 16px 32px; border-radius: 8px; }
+  .field-label { font-weight: bold; display: block; margin-top: 10px; }
+  #result { display: none; }
+  .locked { background: linear-gradient(135deg, #2b1f45, #4a2f6b); color: #f5e6c8; padding: 20px; border-radius: 10px; margin: 16px 0; }
+  .locked h3 { margin-top: 0; color: var(--gold); }
+  #paypal-button-container { max-width: 320px; margin-top: 10px; }
+  .setup-notice { background: #fff8e1; border: 1px solid var(--gold); padding: 10px 14px; border-radius: 8px; font-size: 0.9em; }
+  details.setup { margin-top: 40px; border-top: 1px solid #ddd; padding-top: 12px; }
+  details.setup summary { cursor: pointer; font-weight: bold; }
+  footer { margin-top: 40px; text-align: center; color: #888; font-size: 0.85em; }
+  .ad-slot { border: 1px dashed #ccc; border-radius: 8px; padding: 14px; margin: 18px 0; text-align: center; color: #999; font-size: 0.85em; background: #fafafa; min-height: 60px; }
+  #cookieBanner { position: fixed; left: 0; right: 0; bottom: 0; background: #1a1a2e; color: #f5e6c8; padding: 14px 20px; display: none; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; z-index: 100; }
+  #cookieBanner p { margin: 0; font-size: 0.85em; flex: 1 1 300px; }
+  #cookieBanner button { margin: 0 0 0 8px; }
+</style>
+<script>
+  const FALLBACK_LOGO_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#a78bfa"/><stop offset="100%" stop-color="#f0b429"/>
+    </linearGradient></defs>
+    <circle cx="100" cy="100" r="95" fill="#0d0d17" stroke="url(#g)" stroke-width="4"/>
+    <text x="100" y="105" font-size="60" text-anchor="middle" fill="url(#g)" font-family="serif">✦</text>
+    <text x="100" y="150" font-size="20" text-anchor="middle" fill="#f5e6c8" font-family="serif" letter-spacing="1">FEENCHEN</text>
+  </svg>`;
+  function feenchenLogoFallback(img) {
+    img.onerror = null;
+    img.src = 'data:image/svg+xml,' + encodeURIComponent(FALLBACK_LOGO_SVG);
+  }
+</script>
+</head>
+<body>
+
+<header class="brand">
+  <img id="logoImg" src="logo.png" alt="RinchensFeenchen Logo" onerror="feenchenLogoFallback(this)">
+  <div>
+    <h1>🎵 Feenchen Song-Beschreiber</h1>
+    <div class="brandline">Hersteller &amp; Entwicklung: RinchensFeenchen · #rinarita</div>
+  </div>
+</header>
+
+<p class="hint">Analysiert deine Musikdatei lokal im Browser (Tempo, Tonart, Energie, Klangfarbe) und erstellt daraus einen Beschreibungstext + Tags für den Upload (YouTube, SoundCloud, Bandcamp, Spotify-Distributor etc.). Es wird nichts ins Internet hochgeladen – die Analyse läuft komplett auf deinem Rechner.</p>
+
+<div id="adSlotTop" class="ad-slot">📢 Werbefläche (Google AdSense) – wird aktiv, sobald RinchensFeenchen die Einrichtung abgeschlossen hat</div>
+
+<div id="dropzone">
+  <p>Datei hierher ziehen oder auswählen (MP3, WAV, M4A, OGG, FLAC)</p>
+  <input type="file" id="fileInput" accept="audio/*">
+</div>
+
+<div id="status"></div>
+
+<div id="result">
+  <h2>Die 3 wichtigsten Infos (kostenlos)</h2>
+  <ul id="featuresFree"></ul>
+
+  <div id="lockedBox" class="locked premium-only-inverse">
+    <h3>🔒 Vollständige Analyse, Beschreibungstext &amp; Format-Umwandlung</h3>
+    <p>Mit einer einmaligen Zahlung schaltest du dauerhaft alle Detailwerte (Energie, Klangfarbe, Perkussivität), den fertigen Beschreibungstext + Tags zum Kopieren, und die Umwandlung deiner Datei in WAV, MP3, OGG oder FLAC frei. Kein Abo, keine wiederkehrenden Kosten.</p>
+    <p id="priceDisplay" style="font-size:1.3em; font-weight:bold; color: var(--gold)"></p>
+    <div id="paypal-button-container"></div>
+    <p id="paypalSetupNotice" class="setup-notice" style="display:none">⚠️ Die Bezahlung ist von RinchensFeenchen noch nicht final eingerichtet (Test-Modus). Siehe „Einrichtung“ ganz unten.</p>
+  </div>
+
+  <div class="premium-only" id="premiumFeaturesBox">
+    <h2>Alle Detailwerte</h2>
+    <ul id="featuresFull"></ul>
+  </div>
+
+  <h2>Eigene Angaben (optional)</h2>
+  <span class="field-label">Titel</span>
+  <input type="text" id="titleInput" placeholder="z.B. Mitternachtslicht">
+  <span class="field-label">Künstler:in / Projektname</span>
+  <input type="text" id="artistInput" placeholder="z.B. dein Künstlername">
+  <button id="regenBtn" class="premium-only">Beschreibung neu erzeugen</button>
+
+  <div class="premium-only">
+    <h2>Beschreibungstext</h2>
+    <textarea id="descText" rows="6"></textarea>
+    <button id="copyDescBtn">Text kopieren</button>
+
+    <h2>Tags</h2>
+    <input type="text" id="tagsText">
+    <button id="copyTagsBtn">Tags kopieren</button>
+
+    <h2>🔄 Format-Umwandlung</h2>
+    <select id="targetFormat">
+      <option value="wav">WAV</option>
+      <option value="mp3">MP3</option>
+      <option value="ogg">OGG</option>
+      <option value="flac">FLAC</option>
+    </select>
+    <button id="convertBtn">Umwandeln &amp; herunterladen</button>
+    <div id="convertStatus" class="hint"></div>
+  </div>
+
+  <div id="adSlotBottom" class="ad-slot">📢 Werbefläche (Google AdSense) – wird aktiv, sobald RinchensFeenchen die Einrichtung abgeschlossen hat</div>
+</div>
+
+<details class="setup">
+  <summary>⚙️ Einrichtung für RinchensFeenchen (einmalig, nur für dich als Betreiber:in)</summary>
+  <ol>
+    <li><strong>Logo:</strong> Lege deine echte Logo-Bilddatei als <code>logo.png</code> in denselben Ordner wie diese HTML-Datei (überschreibt den Platzhalter automatisch).</li>
+    <li><strong>PayPal-Einmalzahlung aktivieren:</strong> PayPal-Business-Konto erstellen → im <a href="https://developer.paypal.com/dashboard/applications" target="_blank" rel="noopener">PayPal Developer Dashboard</a> eine App anlegen → Client-ID kopieren und im Code unten bei <code>PAYPAL_CLIENT_ID</code> eintragen. Preis bei <code>PREMIUM_PRICE</code> nach Wunsch anpassen. Kein Abo-Plan nötig.</li>
+    <li><strong>Werbung (optional):</strong> Bei <a href="https://adsense.google.com" target="_blank" rel="noopener">Google AdSense</a> anmelden (braucht eine online gehostete Seite, Prüfung dauert), Publisher-ID kopieren und im Code bei <code>ADSENSE_CLIENT_ID</code> eintragen. Erst dann ersetzen die echten Anzeigen die Platzhalter-Felder, und die Cookie-Leiste erscheint automatisch.</li>
+    <li><strong>Online stellen:</strong> Für echte Installierbarkeit als App, für AdSense und als Grundlage für den Play Store die Dateien kostenlos hosten, z.B. bei GitHub Pages oder Netlify (HTTPS nötig, funktioniert nicht über eine lokal geöffnete Datei).</li>
+    <li><strong>Play Store:</strong> Mit der gehosteten HTTPS-Adresse auf <a href="https://www.pwabuilder.com" target="_blank" rel="noopener">pwabuilder.com</a> ein Android-Paket (.aab) erzeugen lassen (kostenlos) → in der <a href="https://play.google.com/console" target="_blank" rel="noopener">Google Play Console</a> (einmalig 25$ Entwicklergebühr, eigener Google-Account nötig) hochladen.</li>
+  </ol>
+  <p class="hint">Hinweis: Die Freischaltung merkt sich der Browser lokal (ohne eigenen Server) – die einfachste Lösung ohne Backend, aber technisch versierte Nutzer:innen könnten sie umgehen. Für einen fälschungssicheren Kaufnachweis wäre später ein kleiner Server nötig, der die PayPal-Zahlung serverseitig prüft.</p>
+</details>
+
+<footer>
+  © RinchensFeenchen · #rinarita — Feenchen Song-Beschreiber
+</footer>
+
+<div id="cookieBanner">
+  <p>Diese Seite kann Werbung von Google AdSense einblenden, was Cookies zur Personalisierung nutzt. Damit bist du einverstanden?</p>
+  <div>
+    <button id="cookieDecline">Ablehnen</button>
+    <button id="cookieAccept">Akzeptieren</button>
+  </div>
+</div>
+
+<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=EUR&intent=capture" data-sdk-integration-source="button-factory"></script>
+<script>
+// ==== PayPal Einmalzahlungs-Konfiguration ====
+// TODO (RinchensFeenchen): Client-ID nach der Einrichtung (siehe unten im Dokument) hier eintragen.
+const PAYPAL_CLIENT_ID = 'sb'; // 'sb' = PayPal-Sandbox-Testmodus, noch keine echte Client-ID
+const PREMIUM_PRICE = '4.99'; // Preis in EUR für die einmalige Freischaltung
+
+// ==== Google AdSense Konfiguration (optional) ====
+// TODO (RinchensFeenchen): eigene Publisher-ID eintragen, sobald bei AdSense freigeschaltet.
+const ADSENSE_CLIENT_ID = 'ca-pub-DEINE-ID-HIER';
+
+const PREMIUM_KEY = 'rf_premium';
+
+function isPremium() {
+  return localStorage.getItem(PREMIUM_KEY) === 'true';
+}
+
+function applyPremiumState() {
+  const premium = isPremium();
+  document.querySelectorAll('.premium-only').forEach(el => el.style.display = premium ? '' : 'none');
+  document.getElementById('lockedBox').style.display = premium ? 'none' : 'block';
+}
+
+document.getElementById('priceDisplay').textContent = PREMIUM_PRICE + ' € einmalig';
+
+function renderPaypalButton() {
+  if (typeof paypal === 'undefined') return;
+  paypal.Buttons({
+    style: { shape: 'pill', color: 'gold', layout: 'vertical', label: 'pay' },
+    createOrder: function (data, actions) {
+      return actions.order.create({
+        purchase_units: [{ amount: { value: PREMIUM_PRICE, currency_code: 'EUR' }, description: 'Feenchen Song-Beschreiber – Freischaltung' }]
+      });
+    },
+    onApprove: function (data, actions) {
+      return actions.order.capture().then(function () {
+        localStorage.setItem(PREMIUM_KEY, 'true');
+        localStorage.setItem('rf_order_id', data.orderID);
+        applyPremiumState();
+        if (lastFeatures) { showFeatures(lastFeatures); generateText(lastFeatures); }
+        alert('Danke für deinen Kauf! Alle Funktionen sind jetzt dauerhaft freigeschaltet.');
+      });
+    }
+  }).render('#paypal-button-container');
+  if (PAYPAL_CLIENT_ID === 'sb') {
+    document.getElementById('paypalSetupNotice').style.display = 'block';
+  }
+}
+
+applyPremiumState();
+window.addEventListener('load', renderPaypalButton);
+
+// ==== Werbung (Google AdSense) + Cookie-Einwilligung ====
+const ADS_CONSENT_KEY = 'rf_ads_consent';
+function adsConfigured() {
+  return ADSENSE_CLIENT_ID && ADSENSE_CLIENT_ID.indexOf('DEINE-ID-HIER') === -1;
+}
+function loadAdsenseAds() {
+  const slots = [document.getElementById('adSlotTop'), document.getElementById('adSlotBottom')];
+  slots.forEach((slot, i) => {
+    slot.innerHTML = '';
+    const ins = document.createElement('ins');
+    ins.className = 'adsbygoogle';
+    ins.style.display = 'block';
+    ins.setAttribute('data-ad-client', ADSENSE_CLIENT_ID);
+    ins.setAttribute('data-ad-slot', 'auto');
+    ins.setAttribute('data-ad-format', 'auto');
+    ins.setAttribute('data-full-width-responsive', 'true');
+    slot.appendChild(ins);
+  });
+  loadScriptOnce('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + ADSENSE_CLIENT_ID).then(() => {
+    slots.forEach(() => { try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {} });
+  }).catch(() => {});
+}
+function initAds() {
+  if (!adsConfigured()) return; // keine echte AdSense-ID hinterlegt -> Platzhalter bleiben stehen, keine Cookie-Leiste nötig
+  const consent = localStorage.getItem(ADS_CONSENT_KEY);
+  if (consent === 'granted') { loadAdsenseAds(); return; }
+  if (consent === 'denied') return;
+  document.getElementById('cookieBanner').style.display = 'flex';
+}
+document.getElementById('cookieAccept').addEventListener('click', () => {
+  localStorage.setItem(ADS_CONSENT_KEY, 'granted');
+  document.getElementById('cookieBanner').style.display = 'none';
+  loadAdsenseAds();
+});
+document.getElementById('cookieDecline').addEventListener('click', () => {
+  localStorage.setItem(ADS_CONSENT_KEY, 'denied');
+  document.getElementById('cookieBanner').style.display = 'none';
+});
+initAds();
+
+// ==== PWA: Service Worker nur registrieren, wenn über http(s) aufgerufen ====
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+
+// ==== Datei-Handling & Audioanalyse ====
+const fileInput = document.getElementById('fileInput');
+const dropzone = document.getElementById('dropzone');
+const statusEl = document.getElementById('status');
+const resultEl = document.getElementById('result');
+const featuresFreeEl = document.getElementById('featuresFree');
+const featuresFullEl = document.getElementById('featuresFull');
+const descText = document.getElementById('descText');
+const tagsText = document.getElementById('tagsText');
+
+let lastFeatures = null;
+let lastFile = null;
+
+['dragover'].forEach(evt => dropzone.addEventListener(evt, e => { e.preventDefault(); dropzone.classList.add('drag'); }));
+['dragleave', 'drop'].forEach(evt => dropzone.addEventListener(evt, e => { e.preventDefault(); dropzone.classList.remove('drag'); }));
+dropzone.addEventListener('drop', e => {
+  const f = e.dataTransfer.files[0];
+  if (f) handleFile(f);
+});
+fileInput.addEventListener('change', () => {
+  if (fileInput.files[0]) handleFile(fileInput.files[0]);
+});
+
+async function handleFile(file) {
+  resultEl.style.display = 'none';
+  statusEl.textContent = 'Lade und dekodiere „' + file.name + '“ …';
+  lastFile = file;
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    const ctx = new AudioCtx();
+    const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+    statusEl.textContent = 'Analysiere Audio …';
+    await new Promise(r => setTimeout(r, 30));
+    const features = analyze(audioBuffer);
+    features.fileName = file.name;
+    lastFeatures = features;
+    showFeatures(features);
+    generateText(features);
+    statusEl.textContent = 'Fertig: ' + file.name;
+    resultEl.style.display = 'block';
+    ctx.close();
+  } catch (err) {
+    statusEl.textContent = 'Fehler beim Verarbeiten: ' + err.message;
+    console.error(err);
+  }
+}
+
+function mixdown(buffer) {
+  const ch = buffer.numberOfChannels;
+  const len = buffer.length;
+  const out = new Float32Array(len);
+  for (let c = 0; c < ch; c++) {
+    const data = buffer.getChannelData(c);
+    for (let i = 0; i < len; i++) out[i] += data[i] / ch;
+  }
+  return out;
+}
+
+function analyze(buffer) {
+  const sr = buffer.sampleRate;
+  const data = mixdown(buffer);
+  const duration = buffer.duration;
+
+  let sumSq = 0;
+  let zeroCrossings = 0;
+  for (let i = 0; i < data.length; i++) {
+    sumSq += data[i] * data[i];
+    if (i > 0 && ((data[i - 1] >= 0) !== (data[i] >= 0))) zeroCrossings++;
+  }
+  const rms = Math.sqrt(sumSq / data.length);
+  const zcr = zeroCrossings / data.length;
+
+  const bpm = estimateBpm(data, sr);
+  const { centroidAvg, chroma } = spectralAnalysis(data, sr);
+  const key = estimateKey(chroma);
+
+  return { duration, rms, zcr, bpm, centroidAvg, key };
+}
+
+function estimateBpm(data, sr) {
+  const hop = 512;
+  const numBlocks = Math.floor(data.length / hop);
+  const energy = new Float32Array(numBlocks);
+  for (let b = 0; b < numBlocks; b++) {
+    let s = 0;
+    const start = b * hop;
+    for (let i = 0; i < hop; i++) {
+      const v = data[start + i];
+      s += v * v;
+    }
+    energy[b] = Math.sqrt(s / hop);
+  }
+  const onset = new Float32Array(numBlocks - 1);
+  for (let i = 0; i < onset.length; i++) {
+    const d = energy[i + 1] - energy[i];
+    onset[i] = d > 0 ? d : 0;
+  }
+  const bpmMin = 60, bpmMax = 200;
+  const lagMin = Math.max(1, Math.floor(60 * sr / (bpmMax * hop)));
+  const lagMax = Math.min(onset.length - 1, Math.ceil(60 * sr / (bpmMin * hop)));
+
+  let bestLag = lagMin, bestScore = -Infinity;
+  for (let lag = lagMin; lag <= lagMax; lag++) {
+    let score = 0;
+    for (let i = 0; i < onset.length - lag; i++) score += onset[i] * onset[i + lag];
+    if (score > bestScore) { bestScore = score; bestLag = lag; }
+  }
+  const bpm = 60 * sr / (bestLag * hop);
+  return Math.round(bpm);
+}
+
+function fft(re, im) {
+  const n = re.length;
+  for (let i = 1, j = 0; i < n; i++) {
+    let bit = n >> 1;
+    for (; j & bit; bit >>= 1) j ^= bit;
+    j ^= bit;
+    if (i < j) { [re[i], re[j]] = [re[j], re[i]]; [im[i], im[j]] = [im[j], im[i]]; }
+  }
+  for (let len = 2; len <= n; len <<= 1) {
+    const ang = -2 * Math.PI / len;
+    const wRe = Math.cos(ang), wI = Math.sin(ang);
+    for (let i = 0; i < n; i += len) {
+      let curRe = 1, curIm = 0;
+      for (let k = 0; k < len / 2; k++) {
+        const uRe = re[i + k], uIm = im[i + k];
+        const vRe = re[i + k + len / 2] * curRe - im[i + k + len / 2] * curIm;
+        const vIm = re[i + k + len / 2] * curIm + im[i + k + len / 2] * curRe;
+        re[i + k] = uRe + vRe; im[i + k] = uIm + vIm;
+        re[i + k + len / 2] = uRe - vRe; im[i + k + len / 2] = uIm - vIm;
+        const nextRe = curRe * wRe - curIm * wI;
+        const nextIm = curRe * wI + curIm * wRe;
+        curRe = nextRe; curIm = nextIm;
+      }
+    }
+  }
+}
+
+function spectralAnalysis(data, sr) {
+  const fftSize = 4096;
+  const numWindows = 60;
+  if (data.length < fftSize) {
+    return { centroidAvg: 0, chroma: new Array(12).fill(1) };
+  }
+  const hop = Math.max(1, Math.floor((data.length - fftSize) / numWindows));
+  const hann = new Float32Array(fftSize);
+  for (let i = 0; i < fftSize; i++) hann[i] = 0.5 - 0.5 * Math.cos(2 * Math.PI * i / (fftSize - 1));
+
+  const chroma = new Array(12).fill(0);
+  let centroidSum = 0, windowCount = 0;
+
+  for (let start = 0; start + fftSize <= data.length; start += hop) {
+    const re = new Float64Array(fftSize);
+    const im = new Float64Array(fftSize);
+    for (let i = 0; i < fftSize; i++) re[i] = data[start + i] * hann[i];
+    fft(re, im);
+
+    let magSum = 0, weighted = 0;
+    const half = fftSize / 2;
+    for (let k = 1; k < half; k++) {
+      const mag = Math.sqrt(re[k] * re[k] + im[k] * im[k]);
+      const freq = k * sr / fftSize;
+      magSum += mag;
+      weighted += mag * freq;
+      if (freq >= 20 && freq <= 5000) {
+        const midi = 69 + 12 * Math.log2(freq / 440);
+        const pc = ((Math.round(midi) % 12) + 12) % 12;
+        chroma[pc] += mag;
+      }
+    }
+    if (magSum > 0) { centroidSum += weighted / magSum; windowCount++; }
+  }
+
+  const centroidAvg = windowCount ? centroidSum / windowCount : 0;
+  const chromaSum = chroma.reduce((a, b) => a + b, 0) || 1;
+  const chromaNorm = chroma.map(v => v / chromaSum);
+  return { centroidAvg, chroma: chromaNorm };
+}
+
+function estimateKey(chroma) {
+  const noteNames = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+  const majorProfile = [6.35,2.23,3.48,2.33,4.38,4.09,2.52,5.19,2.39,3.66,2.29,2.88];
+  const minorProfile = [6.33,2.68,3.52,5.38,2.60,3.53,2.54,4.75,3.98,2.69,3.34,3.17];
+
+  function correlate(a, b) {
+    const meanA = a.reduce((x, y) => x + y, 0) / a.length;
+    const meanB = b.reduce((x, y) => x + y, 0) / b.length;
+    let num = 0, denA = 0, denB = 0;
+    for (let i = 0; i < a.length; i++) {
+      const da = a[i] - meanA, db = b[i] - meanB;
+      num += da * db; denA += da * da; denB += db * db;
+    }
+    return num / (Math.sqrt(denA * denB) || 1);
+  }
+
+  let best = { name: 'C', mode: 'Dur', score: -Infinity };
+  for (let r = 0; r < 12; r++) {
+    const rotatedMajor = majorProfile.map((_, i) => majorProfile[(i - r + 12) % 12]);
+    const rotatedMinor = minorProfile.map((_, i) => minorProfile[(i - r + 12) % 12]);
+    const sMaj = correlate(chroma, rotatedMajor);
+    const sMin = correlate(chroma, rotatedMinor);
+    if (sMaj > best.score) best = { name: noteNames[r], mode: 'Dur', score: sMaj };
+    if (sMin > best.score) best = { name: noteNames[r], mode: 'Moll', score: sMin };
+  }
+  return best.name + '-' + best.mode;
+}
+
+function showFeatures(f) {
+  const mins = Math.floor(f.duration / 60);
+  const secs = Math.round(f.duration % 60).toString().padStart(2, '0');
+  featuresFreeEl.innerHTML = `
+    <li>Dauer: ${mins}:${secs} min</li>
+    <li>Tempo: ca. ${f.bpm} BPM</li>
+    <li>Tonart (geschätzt): ${f.key}</li>
+  `;
+  featuresFullEl.innerHTML = `
+    <li>Lautstärke/Energie (RMS): ${f.rms.toFixed(3)}</li>
+    <li>Klangfarbe (Spektralschwerpunkt): ${Math.round(f.centroidAvg)} Hz</li>
+    <li>Perkussivität (Zero-Crossing-Rate): ${(f.zcr * 100).toFixed(2)}%</li>
+  `;
+}
+
+function describeWords(f) {
+  let tempo;
+  if (f.bpm < 70) tempo = 'sehr langsam, balladenhaft';
+  else if (f.bpm < 95) tempo = 'ruhig bis mittelschnell';
+  else if (f.bpm < 120) tempo = 'mittleres, treibendes Tempo';
+  else if (f.bpm < 140) tempo = 'schnell und tanzbar';
+  else tempo = 'sehr schnell und energiegeladen';
+
+  let energy;
+  if (f.rms < 0.05) energy = 'zurückhaltend und leise';
+  else if (f.rms < 0.15) energy = 'moderat energiegeladen';
+  else energy = 'kraftvoll und laut';
+
+  let brightness;
+  if (f.centroidAvg < 1500) brightness = 'warm und basslastig';
+  else if (f.centroidAvg < 4000) brightness = 'ausgewogen im Klang';
+  else brightness = 'hell und luftig';
+
+  const isMajor = f.key.endsWith('Dur');
+  const mode = isMajor
+    ? 'klingt eher hell, offen und positiv'
+    : 'klingt eher dunkel, melancholisch bis emotional';
+
+  const percussive = f.zcr > 0.08
+    ? 'mit deutlich perkussivem, rhythmischem Charakter'
+    : 'mit weichem, eher melodischem Charakter';
+
+  return { tempo, energy, brightness, mode, percussive };
+}
+
+function generateText(f) {
+  const w = describeWords(f);
+  const title = document.getElementById('titleInput').value.trim();
+  const artist = document.getElementById('artistInput').value.trim();
+
+  let intro = '';
+  if (title && artist) intro = `"${title}" von ${artist} ist `;
+  else if (title) intro = `"${title}" ist `;
+  else intro = 'Dieser Track ist ';
+
+  const desc = `${intro}ein Song mit ca. ${f.bpm} BPM in ${f.key}, ${w.tempo}. ` +
+    `Er wirkt ${w.energy} und ${w.brightness}, ${w.percussive}, und ${w.mode}.`;
+
+  descText.value = desc;
+
+  const tags = [
+    f.bpm + ' BPM',
+    f.key,
+    w.tempo.split(',')[0],
+    w.energy.split(' und ')[0],
+    w.brightness.split(' und ')[0],
+    f.key.endsWith('Dur') ? 'Dur' : 'Moll'
+  ];
+  tagsText.value = tags.join(', ');
+}
+
+document.getElementById('regenBtn').addEventListener('click', () => {
+  if (lastFeatures) generateText(lastFeatures);
+});
+function copyField(el) {
+  el.select();
+  el.setSelectionRange(0, el.value.length);
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(el.value).catch(() => document.execCommand('copy'));
+  } else {
+    document.execCommand('copy');
+  }
+}
+document.getElementById('copyDescBtn').addEventListener('click', () => copyField(descText));
+document.getElementById('copyTagsBtn').addEventListener('click', () => copyField(tagsText));
+
+// ==== Format-Umwandlung (ffmpeg.wasm, läuft komplett im Browser) ====
+let ffmpegInstance = null;
+async function getFfmpeg() {
+  if (ffmpegInstance) return ffmpegInstance;
+  await loadScriptOnce('https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js');
+  const { createFFmpeg } = FFmpeg;
+  ffmpegInstance = createFFmpeg({ log: false });
+  await ffmpegInstance.load();
+  return ffmpegInstance;
+}
+function loadScriptOnce(src) {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${src}"]`)) return resolve();
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
+document.getElementById('convertBtn').addEventListener('click', async () => {
+  if (!lastFile) { alert('Bitte zuerst eine Datei auswählen.'); return; }
+  const convertStatus = document.getElementById('convertStatus');
+  const targetExt = document.getElementById('targetFormat').value;
+  convertStatus.textContent = 'Lade Umwandlungs-Engine (einmalig, benötigt Internet) …';
+  try {
+    const ffmpeg = await getFfmpeg();
+    const { fetchFile } = FFmpeg;
+    const srcExt = (lastFile.name.split('.').pop() || 'mp3').toLowerCase();
+    const inputName = 'input.' + srcExt;
+    const outputName = 'output.' + targetExt;
+    convertStatus.textContent = 'Wandle Datei um …';
+    ffmpeg.FS('writeFile', inputName, await fetchFile(lastFile));
+    await ffmpeg.run('-i', inputName, outputName);
+    const data = ffmpeg.FS('readFile', outputName);
+    const blob = new Blob([data.buffer], { type: 'audio/' + targetExt });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = lastFile.name.replace(/\.[^.]+$/, '') + '.' + targetExt;
+    a.click();
+    convertStatus.textContent = 'Fertig! Download gestartet.';
+  } catch (err) {
+    convertStatus.textContent = 'Fehler bei der Umwandlung: ' + err.message;
+    console.error(err);
+  }
+});
+</script>
+</body>
+</html>
