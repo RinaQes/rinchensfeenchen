@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Der PC-Pflegezauber – Feenchen-Schatz</title>
+  <meta name="description" content="Ein Feenchen-Guide für einen klaren, ruhigen Rechner: Beraterpfad und kleines Lexikon aller Tastenkombinationen und Befehle." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fdf9ff;
+      --accent: #caa6ff;
+      --accent2: #b5f5e3;
+      --text: #2b2236;
+      --gold: #f7e4b5;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Nunito", system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at top, #fdf1ff 0%, #fdf9ff 45%, #ecf8ff 100%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .wrapper { max-width: 760px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+    a.back { display: inline-block; margin-bottom: 1.5rem; color: var(--text); text-decoration: none; font-size: 0.9rem; opacity: 0.7; }
+    a.back:hover { opacity: 1; }
+
+    header { text-align: center; padding: 1rem 1rem 2rem; }
+
+    .tagline {
+      font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.2em;
+      color: rgba(43, 34, 54, 0.6); margin-bottom: 0.6rem;
+    }
+
+    header h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      color: var(--text);
+    }
+
+    header p.sub { max-width: 480px; margin: 1rem auto 0; font-style: italic; color: rgba(43,34,54,0.75); }
+
+    .cover-frame {
+      display: flex; justify-content: center; margin: 2rem 0;
+    }
+    .cover-frame img {
+      width: 130px; height: 130px; border-radius: 50%; object-fit: cover;
+      box-shadow: 0 12px 30px rgba(43,34,54,0.18);
+    }
+
+    section {
+      margin-top: 2rem;
+      padding: 2.2rem 1.75rem;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 60px rgba(43, 34, 54, 0.09);
+    }
+
+    section h2 { font-family: "Playfair Display", serif; font-size: 1.4rem; margin-bottom: 0.75rem; }
+    section p { margin-bottom: 0.6rem; }
+
+    ul { margin-top: 0.5rem; padding-left: 1.1rem; list-style: "✶ "; }
+    li + li { margin-top: 0.3rem; }
+
+    .price-box {
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+      margin-top: 1.5rem; padding: 1.2rem 1.4rem; border-radius: 16px;
+      background: linear-gradient(135deg, rgba(202,166,255,0.18), rgba(247,228,181,0.25));
+      border: 1px solid rgba(202,166,255,0.4);
+    }
+    .price-box .price { font-family: "Playfair Display", serif; font-size: 1.6rem; }
+    .price-box .price small { font-size: 0.9rem; font-weight: 400; color: rgba(43,34,54,0.6); }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+      text-decoration: none; font-size: 0.95rem; font-weight: 600;
+      padding: 0.65rem 1.4rem; border-radius: 999px; border: none; cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(43,34,54,0.15); }
+    .btn-primary { background: linear-gradient(135deg, var(--accent), var(--gold)); color: var(--text); }
+    .btn-outline { background: transparent; border: 1px solid rgba(202,166,255,0.6); color: var(--text); }
+
+    .delivery-note {
+      margin-top: 1.2rem; font-size: 0.85rem; color: rgba(43,34,54,0.65); font-style: italic;
+    }
+
+    .preview-cta { text-align: center; margin-top: 0.5rem; }
+
+    footer { text-align: center; font-size: 0.85rem; color: rgba(43, 34, 54, 0.6); margin-top: 2.5rem; }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <a class="back" href="../zuhause.html">← Zurück zur Feenchen-Bibliothek</a>
+
+    <header>
+      <div class="tagline">Feenchen-Schatz · PDF-Guide</div>
+      <h1>Der PC-Pflegezauber</h1>
+      <p class="sub">Ein Feenchen-Guide für einen klaren, ruhigen Rechner — der Beraterpfad in fünf Schritten und ein kleines Lexikon aller Tastenkombinationen zum Nachschlagen.</p>
+    </header>
+
+    <div class="cover-frame">
+      <img src="../assets/feenchen-logo.jpg" alt="Feenchen Logo" onerror="this.style.display='none'" />
+    </div>
+
+    <section>
+      <h2>Was dich erwartet</h2>
+      <p>Kein lautes Aufräumen, kein hektisches Klicken — nur ein paar bewährte Handgriffe, die deinem PC wieder Raum zum Atmen geben.</p>
+      <ul>
+        <li>Der Beraterpfad — fünf einfache Schritte in sinnvoller Reihenfolge, etwa 20 Minuten, keine Zusatz-Software.</li>
+        <li>Das kleine Lexikon — alle Tastenkombinationen und Befehle (Ausführen-Dialog, Eingabeaufforderung) verständlich erklärt.</li>
+        <li>Gestaltet im verwunschenen Feenchen-Look, zum Ausdrucken oder Nachschlagen am Bildschirm.</li>
+      </ul>
+
+      <div class="preview-cta">
+        <a class="btn btn-outline" href="pc-pflegezauber-vorschau.pdf" target="_blank" rel="noopener">Kostenlose Vorschau ansehen (Seite 1–2) ✶</a>
+      </div>
+
+      <div class="price-box">
+        <div class="price">1,00 € <small>einmalig</small></div>
+        <a class="btn btn-primary" href="https://paypal.me/rinchensfeenchen/1" target="_blank" rel="noopener">Jetzt per PayPal kaufen ✶</a>
+      </div>
+      <p class="delivery-note">
+        Nach der Zahlung schick uns kurz eine Nachricht an
+        <a href="mailto:rinchensfeenchen@web.de?subject=PC-Pflegezauber">rinchensfeenchen@web.de</a>
+        (am besten mit Screenshot der Zahlung) — du bekommst den vollständigen Feenchen-Guide dann
+        direkt per E-Mail zurück. ✶
+      </p>
+    </section>
+
+    <footer>
+      Feenchen · Ein Begegnungs- & Wissensort voller leiser Feenmagie.
+    </footer>
+  </div>
+</body>
+
+</html>
