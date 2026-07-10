@@ -127,7 +127,7 @@ window.FEENCHEN_CONTENT = {
     },
     {
       titel: "Das Biorhythmus Workbook",
-      beschreibung: "Die drei Rhythmen im Detail, ein Zwei-Wochen-Tracker und acht Reflexionsfragen zu dir selbst. Mit kostenloser Vorschau.",
+      beschreibung: "Mystisch erzählt, fachlich präzise: mit Glossar aller Fachbegriffe, Entdeckungsgeschichte, Zwei-Wochen-Tracker und acht Reflexionsfragen. Mit kostenloser Vorschau.",
       preis: "2,50 €",
       icon: "📓",
       link: "schaetze/biorhythmus-workbook.html#erwachsene",
