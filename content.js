@@ -120,7 +120,7 @@ window.FEENCHEN_CONTENT = {
     {
       titel: "Der PC-Pflegezauber",
       beschreibung: "Feenchen-Guide für einen klaren Rechner: Beraterpfad in fünf Schritten plus kleines Lexikon aller Tastenkombinationen und Befehle. Mit kostenloser Vorschau.",
-      preis: "1,00 €",
+      preis: "2,50 €",
       icon: "🔮",
       link: "schaetze/pc-pflegezauber.html",
       zeigeAufStartseite: true
