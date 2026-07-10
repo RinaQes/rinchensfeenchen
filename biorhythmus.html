@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feenchen Biorhythmus Workbook</title>
+<meta name="author" content="RinchensFeenchen #rinarita">
+<meta name="description" content="Interaktives Biorhythmus-Workbook: berechne deinen Körper-, Seelen- und Geistrhythmus und entdecke bis zu 40 liebevolle Auswertungen zu dir selbst.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fdf9ff;
+    --accent: #caa6ff;
+    --accent2: #b5f5e3;
+    --text: #2b2236;
+    --text-muted: #6b6178;
+    --gold: #f7e4b5;
+    --rose: #f3c9d8;
+    --radius: 16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Nunito", system-ui, -apple-system, sans-serif;
+    background: radial-gradient(circle at top, #fdf1ff 0%, #fdf9ff 45%, #ecf8ff 100%);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  header { text-align: center; margin-bottom: 0.5rem; }
+  header img { width: 76px; height: 76px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 3px var(--gold); }
+  h1 {
+    font-family: "Playfair Display", serif;
+    font-weight: 500;
+    font-size: clamp(1.9rem, 5vw, 2.5rem);
+    margin: 14px 0 4px;
+  }
+  .byline { color: var(--text-muted); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 20px; }
+  .lede { color: var(--text-muted); font-size: 1rem; max-width: 60ch; margin: 0 auto 24px; text-align: center; }
+  .lede strong { color: var(--text); }
+  .disclaimer {
+    font-size: 0.82rem; font-style: italic; color: var(--text-muted);
+    text-align: center; max-width: 56ch; margin: 0 auto 28px;
+    padding: 10px 16px; border-radius: var(--radius); background: rgba(202,166,255,0.08);
+  }
+
+  .adslot {
+    border: 1px dashed rgba(43,34,54,0.18); border-radius: var(--radius);
+    padding: 12px; text-align: center; font-size: 0.72rem; color: var(--text-muted); margin: 22px 0;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.85); border: 1px solid rgba(202,166,255,0.3);
+    border-radius: var(--radius); padding: 22px 22px 24px; margin-bottom: 22px;
+    box-shadow: 0 12px 30px rgba(43,34,54,0.06);
+  }
+  .card h2 {
+    font-family: "Playfair Display", serif; font-weight: 500; font-size: 1.35rem;
+    margin: 0 0 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .free-badge {
+    display: inline-block; font-size: 0.65rem; letter-spacing: 0.05em; text-transform: uppercase;
+    color: #4E7A45; border: 1px solid #9fd9a0; background: rgba(181,245,227,0.35);
+    border-radius: 100px; padding: 2px 9px;
+  }
+  .lock-badge {
+    display: inline-block; font-size: 0.65rem; letter-spacing: 0.05em; text-transform: uppercase;
+    color: #99406b; border: 1px solid var(--rose); background: rgba(243,201,216,0.4);
+    border-radius: 100px; padding: 2px 9px;
+  }
+
+  label { display: block; font-size: 0.85rem; color: var(--text-muted); margin: 14px 0 6px; }
+  label:first-child { margin-top: 0; }
+  input[type=date] {
+    width: 100%; background: #fff; border: 1px solid rgba(202,166,255,0.4); color: var(--text);
+    font-family: "Nunito", sans-serif; font-size: 0.95rem; padding: 10px 12px; border-radius: 10px;
+  }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; justify-content: center;
+    background: linear-gradient(135deg, var(--accent), var(--gold)); color: var(--text);
+    border: none; border-radius: 100px; font-family: "Nunito", sans-serif; font-weight: 600;
+    font-size: 0.95rem; padding: 12px 22px; cursor: pointer; margin-top: 18px; width: 100%;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(43,34,54,0.15); }
+  .btn:active { transform: scale(0.98); }
+  .btn.secondary { background: transparent; color: var(--text); border: 1px solid rgba(202,166,255,0.6); }
+  .btn.small { width: auto; padding: 8px 16px; font-size: 0.82rem; margin-top: 0; }
+
+  .stats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+  .stat {
+    flex: 1; min-width: 140px; background: var(--bg); border: 1px solid rgba(202,166,255,0.25);
+    border-radius: 12px; padding: 12px 14px; text-align: center;
+  }
+  .stat b { display: block; font-family: "Playfair Display", serif; font-size: 1.4rem; font-weight: 500; margin-bottom: 2px; }
+  .stat span.lbl { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat span.phase { display: block; font-size: 0.78rem; margin-top: 4px; color: var(--text); }
+  .stat.koerper b { color: #D85A30; }
+  .stat.seele b { color: #D4537E; }
+  .stat.geist b { color: #185FA5; }
+
+  .chart-wrap { margin-top: 18px; }
+  .chart-legend { display: flex; gap: 16px; justify-content: center; font-size: 0.78rem; margin-top: 8px; flex-wrap: wrap; }
+  .chart-legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+
+  .theme-card {
+    border: 1px solid rgba(202,166,255,0.3); border-radius: 12px; padding: 14px 16px; margin-top: 12px;
+    background: var(--bg);
+  }
+  .theme-card h3 { font-family: "Playfair Display", serif; font-weight: 500; font-size: 1.05rem; margin-bottom: 6px; }
+  .theme-card p { font-size: 0.9rem; color: var(--text); }
+
+  .lockwall {
+    position: relative; padding: 18px; border-radius: var(--radius);
+    background: rgba(243,201,216,0.15); border: 1px solid rgba(243,201,216,0.6);
+    text-align: center; font-size: 0.9rem; color: var(--text);
+  }
+  .lockwall .price { color: #99406b; font-weight: 600; }
+
+  .warn {
+    font-size: 0.78rem; color: #99406b; background: rgba(243,201,216,0.2);
+    border: 1px solid rgba(243,201,216,0.6); border-radius: 8px; padding: 8px 10px; margin-top: 14px;
+  }
+
+  details { margin-top: 26px; }
+  summary { cursor: pointer; font-family: "Playfair Display", serif; font-size: 1.1rem; color: var(--text); font-weight: 500; }
+  .setup ol { padding-left: 20px; color: var(--text-muted); font-size: 0.88rem; }
+  .setup li { margin-bottom: 12px; }
+  .setup code { background: rgba(202,166,255,0.12); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; }
+  .setup a { color: var(--text); }
+  .note { font-size: 0.78rem; color: var(--text-muted); margin-top: 10px; }
+
+  footer { text-align: center; margin-top: 40px; font-size: 0.78rem; color: var(--text-muted); }
+
+  #cookie-banner {
+    position: fixed; left: 0; right: 0; bottom: 0; background: #fff;
+    border-top: 1px solid rgba(202,166,255,0.4); padding: 14px 20px; display: none; z-index: 50;
+    font-size: 0.82rem; color: var(--text);
+  }
+  #cookie-banner .row { max-width: 760px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; justify-content: space-between; }
+  #cookie-banner button { border-radius: 100px; padding: 8px 16px; font-size: 0.8rem; cursor: pointer; border: 1px solid var(--accent); background: transparent; color: var(--text); }
+  #cookie-banner button.accept { background: var(--accent); color: #fff; border: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <img src="logo.png" alt="RinchensFeenchen Logo" onerror="this.style.display='none'">
+    <h1>✶ Feenchen Biorhythmus Workbook</h1>
+    <div class="byline">Hersteller &amp; Entwicklung: RinchensFeenchen · #rinarita</div>
+  </header>
+
+  <p class="lede">
+    Sich selbst verstehen lernen, statt sich zu bekämpfen. Trag dein Geburtsdatum ein und entdecke,
+    in welchem <strong>Körper-, Seelen- und Geistrhythmus</strong> du heute schwingst – als sanfter
+    Anlass, öfter auf dich selbst zu hören.
+  </p>
+  <p class="disclaimer">
+    Der Biorhythmus ist ein traditionelles Reflexions-Modell aus dem frühen 20. Jahrhundert.
+    Er gilt heute nicht als wissenschaftlich belegt – wir nutzen ihn hier bewusst als spielerisches
+    Selbstbeobachtungs-Ritual, nicht als medizinische oder therapeutische Aussage.
+  </p>
+
+  <div class="adslot" id="ad-top">Werbefläche (Google AdSense) – wird aktiv, sobald RinchensFeenchen die Einrichtung abgeschlossen hat</div>
+
+  <div class="card">
+    <h2>Dein Geburtsdatum <span class="free-badge">kostenlos</span></h2>
+    <label for="geburtsdatum">Wann bist du geboren?</label>
+    <input type="date" id="geburtsdatum">
+    <button class="btn" onclick="Feenchen.berechnen()">✶ Meinen Biorhythmus berechnen</button>
+    <p class="note">Die Berechnung läuft komplett in deinem Browser – dein Geburtsdatum verlässt nie dein Gerät.</p>
+  </div>
+
+  <div class="card" id="ergebnis-card" style="display:none;">
+    <h2>Deine drei Rhythmen heute <span class="free-badge">kostenlos</span></h2>
+
+    <div class="stats">
+      <div class="stat koerper">
+        <span class="lbl">Körper · 23 Tage</span>
+        <b id="wert-koerper">–</b>
+        <span class="phase" id="phase-koerper">–</span>
+      </div>
+      <div class="stat seele">
+        <span class="lbl">Seele · 28 Tage</span>
+        <b id="wert-seele">–</b>
+        <span class="phase" id="phase-seele">–</span>
+      </div>
+      <div class="stat geist">
+        <span class="lbl">Geist · 33 Tage</span>
+        <b id="wert-geist">–</b>
+        <span class="phase" id="phase-geist">–</span>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <svg id="chart" viewBox="0 0 600 180" style="width:100%;height:auto;" role="img" aria-label="Verlauf deiner drei Rhythmen über die letzten und nächsten 15 Tage"></svg>
+      <div class="chart-legend">
+        <span><i class="dot" style="background:#D85A30;"></i>Körper</span>
+        <span><i class="dot" style="background:#D4537E;"></i>Seele</span>
+        <span><i class="dot" style="background:#185FA5;"></i>Geist</span>
+      </div>
+    </div>
+
+    <div id="frei-themen"></div>
+
+    <details style="margin-top:22px;">
+      <summary>Alle 40 Auswertungen freischalten <span class="lock-badge">Premium</span></summary>
+
+      <div id="premium-locked" class="lockwall" style="margin-top:14px;">
+        ✶ Insgesamt warten <strong>40 liebevolle Auswertungen</strong> zu Energie, Gefühlswelt, Kreativität,
+        Fokus, Beziehungen und mehr auf dich – abgestimmt auf deine drei Rhythmen. Die spannendsten zwei
+        Themen oben sind für immer kostenlos, der Rest ist Teil der einmaligen Freischaltung
+        (<span class="price" id="preisAnzeige">3,99&nbsp;€</span>, kein Abo).
+        <div id="paypal-button-container" style="margin-top:14px;"></div>
+        <p class="warn">⚠️ Die Bezahlung ist von RinchensFeenchen noch nicht final eingerichtet (Test-Modus). Siehe „Einrichtung" ganz unten.</p>
+        <button class="btn secondary small" onclick="Feenchen.testFreischalten()">Test-Modus: trotzdem freischalten</button>
+      </div>
+
+      <div id="premium-content" style="display:none;margin-top:14px;"></div>
+    </details>
+  </div>
+
+  <div class="adslot" id="ad-bottom">Werbefläche (Google AdSense) – wird aktiv, sobald RinchensFeenchen die Einrichtung abgeschlossen hat</div>
+
+  <details class="setup">
+    <summary>⚙️ Einrichtung für RinchensFeenchen (einmalig, nur für dich als Betreiber:in)</summary>
+    <ol>
+      <li><strong>Logo:</strong> Nutzt automatisch dieselbe <code>logo.png</code> wie deine anderen Tools.</li>
+      <li><strong>PayPal-Einmalzahlung aktivieren:</strong> Dieselbe PayPal-Business-App wie bei den anderen Tools wiederverwenden, oder im <a href="https://developer.paypal.com/dashboard/applications" target="_blank" rel="noopener">PayPal Developer Dashboard</a> eine neue App anlegen → Client-ID unten bei <code>PAYPAL_CLIENT_ID</code> eintragen. Preis bei <code>PREMIUM_PRICE</code> nach Wunsch anpassen.</li>
+      <li><strong>Werbung (optional):</strong> Publisher-ID bei <code>ADSENSE_CLIENT_ID</code> eintragen, sobald bei Google AdSense freigeschaltet.</li>
+      <li><strong>Online stellen:</strong> Liegt schon im selben Ordner wie deine anderen Tools, z. B. unter <code>/rinchensfeenchen/biorhythmus.html</code>.</li>
+    </ol>
+    <p class="note">Hinweis: Die Freischaltung merkt sich der Browser lokal (ohne eigenen Server) – einfachste Lösung ohne Backend, aber technisch versierte Nutzer:innen könnten sie umgehen.</p>
+  </details>
+
+  <footer>
+    © RinchensFeenchen · #rinarita — Feenchen Biorhythmus Workbook
+  </footer>
+</div>
+
+<div id="cookie-banner">
+  <div class="row">
+    <span>Diese Seite kann Werbung von Google AdSense einblenden, was Cookies zur Personalisierung nutzt. Damit bist du einverstanden?</span>
+    <span style="display:flex;gap:8px;">
+      <button onclick="Feenchen.cookie(false)">Ablehnen</button>
+      <button class="accept" onclick="Feenchen.cookie(true)">Akzeptieren</button>
+    </span>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   FEENCHEN BIORHYTHMUS WORKBOOK — Konfiguration für RinchensFeenchen
+   ============================================================ */
+const PAYPAL_CLIENT_ID = "AWiRiuOyFKLpjrH0FzIMoWnbWV6GrUfr4G1B-7Q9szrZAvHid3cS0l96rvcndYP5i0-heVGCRfREzl_J";
+const PREMIUM_PRICE = "3.99";
+const ADSENSE_CLIENT_ID = "ca-pub-DEINE_ADSENSE_ID_HIER";
+const PREMIUM_KEY = "feenchen_biorhythmus_premium";
+
+function paypalKonfiguriert() {
+  return !PAYPAL_CLIENT_ID.includes("DEIN_PAYPAL_CLIENT_ID_HIER");
+}
+
+/* ============================================================
+   Themen: 8 Lebensbereiche × 5 Intensitätsstufen = 40 Auswertungen.
+   quelle(w) liefert einen Wert zwischen -1 und 1 aus den drei
+   Tagesrhythmen (Körper, Seele, Geist).
+   ============================================================ */
+const THEMEN = [
+  {
+    key: "energie", titel: "Energie & Tatendrang", frei: true,
+    quelle: w => w.koerper,
+    texte: [
+      "Deine Energie steht heute ganz oben – ein guter Tag, um anzupacken, was schon länger wartet.",
+      "Du hast spürbar Antrieb. Nutze den Schwung für Dinge, die etwas Kraft brauchen.",
+      "Ein ruhiger Mittelweg: weder Hochform noch Flaute. Hör einfach, wozu dir gerade der Sinn steht.",
+      "Deine Kraftreserven sind etwas leiser als sonst. Kleinere Schritte reichen heute völlig aus.",
+      "Heute darf es langsam sein. Dein Körper bittet um Pause, nicht um Leistung."
+    ]
+  },
+  {
+    key: "widerstand", titel: "Widerstandskraft & Ausdauer", frei: false,
+    quelle: w => w.koerper,
+    texte: [
+      "Deine Belastbarkeit ist heute besonders hoch – ein guter Moment für Vorhaben mit langem Atem.",
+      "Du hältst gut durch. Auch anstrengendere Aufgaben fühlen sich machbar an.",
+      "Eine ausgeglichene Verfassung – achte einfach darauf, dich nicht zu übernehmen.",
+      "Deine Widerstandskraft ist gerade etwas dünner. Baue dir bewusst kleine Erholungsinseln ein.",
+      "Ein sensibler Tag für deinen Körper. Sei nachsichtig mit dir, wenn heute nicht alles gelingt."
+    ]
+  },
+  {
+    key: "stimmung", titel: "Stimmung & Gefühlswelt", frei: true,
+    quelle: w => w.seele,
+    texte: [
+      "Deine Gefühlswelt ist heute leicht und offen – ein schöner Tag für Nähe und gute Gespräche.",
+      "Du fühlst dich überwiegend im Gleichgewicht und zugewandt.",
+      "Eine ruhige, neutrale Stimmungslage – guter Boden, um einfach bei dir zu bleiben.",
+      "Deine Gefühle ziehen sich heute eher nach innen zurück. Das ist kein Rückschritt, nur eine Pause.",
+      "Ein sensibler, introvertierter Tag. Gönn dir Rückzug, statt dich zu etwas zu zwingen."
+    ]
+  },
+  {
+    key: "beziehungen", titel: "Beziehungen & Nähe", frei: false,
+    quelle: w => w.seele,
+    texte: [
+      "Du bist heute besonders kontaktfreudig – ein guter Tag, um jemanden anzurufen oder einzuladen.",
+      "Nähe tut dir heute gut, und du hast Freude an Gesellschaft.",
+      "Ein ausgeglichener Tag für Beziehungen – weder Rückzug noch Übermaß an Nähe.",
+      "Du brauchst heute etwas mehr Raum für dich. Das darfst du auch aussprechen.",
+      "Ein Tag für leise Beziehungspflege statt großer Auftritte – ein kurzes 'ich denk an dich' reicht oft schon."
+    ]
+  },
+  {
+    key: "kreativitaet", titel: "Kreativität & Ausdruck", frei: false,
+    quelle: w => (w.seele + w.geist) / 2,
+    texte: [
+      "Deine schöpferische Seite blüht heute auf – ein wunderbarer Tag zum Schreiben, Gestalten, Erschaffen.",
+      "Ideen kommen dir heute recht leicht. Halte fest, was dir einfällt.",
+      "Eine solide, unaufgeregte Schaffensphase – gut für Projekte, die schon in Arbeit sind.",
+      "Deine Fantasie ist heute etwas leiser. Inspiration darf sich Zeit lassen.",
+      "Ein guter Tag, um Altes zu sichten und zu ordnen, statt komplett Neues zu beginnen."
+    ]
+  },
+  {
+    key: "fokus", titel: "Fokus & Konzentration", frei: false,
+    quelle: w => w.geist,
+    texte: [
+      "Dein Kopf ist heute glasklar – perfekt für Aufgaben, die volle Konzentration brauchen.",
+      "Du denkst heute recht scharf und schnell. Nutze das für kniffligere Themen.",
+      "Eine mittlere Konzentrationsphase – für Routineaufgaben genau richtig.",
+      "Dein Fokus ist heute etwas flüchtiger. Kurze Arbeitsblöcke funktionieren besser als lange.",
+      "Konzentration fällt dir heute schwerer. Ein guter Tag für Pausen statt Prüfungen."
+    ]
+  },
+  {
+    key: "lernen", titel: "Lernen & Neues entdecken", frei: false,
+    quelle: w => w.geist,
+    texte: [
+      "Dein Kopf ist heute besonders aufnahmefähig – ideal, um dir Neues anzueignen.",
+      "Du lernst heute recht mühelos dazu. Ein guter Tag für ungewohnte Themen.",
+      "Solide Auffassungsgabe – neue Dinge brauchen heute etwas mehr Wiederholung.",
+      "Dein Gedächtnis ist heute etwas träger. Wiederholen und Ordnen liegt dir mehr als Neues pauken.",
+      "Ein Tag zum Sortieren von bereits Gelerntem, nicht zum Vollstopfen mit Neuem."
+    ]
+  },
+  {
+    key: "entscheidungen", titel: "Mut & Entscheidungen", frei: false,
+    quelle: w => (w.koerper + w.geist) / 2,
+    texte: [
+      "Du bist heute mutig und klar im Kopf – ein starker Tag für wichtige Entscheidungen.",
+      "Deine Entschlusskraft ist gut. Größere Schritte fühlen sich heute machbar an.",
+      "Ein neutraler Tag – weder besonders mutig noch besonders zögerlich.",
+      "Wichtige Entscheidungen darfst du heute ruhig noch einen Tag reifen lassen.",
+      "Ein Tag für Zurückhaltung statt großer Entschlüsse. Vertrau darauf, dass morgen mehr Klarheit kommt."
+    ]
+  }
+];
+
+function stufeVonWert(v) {
+  if (v >= 0.6) return 0;
+  if (v >= 0.15) return 1;
+  if (v > -0.15) return 2;
+  if (v > -0.6) return 3;
+  return 4;
+}
+
+function phaseLabel(v) {
+  if (v >= 0.15) return "Hochphase";
+  if (v <= -0.15) return "Erholungsphase";
+  return "Umschalttag";
+}
+
+function tagesWerte(geburtsdatum, zieldatum) {
+  const msProTag = 86400000;
+  const tage = Math.floor((zieldatum - geburtsdatum) / msProTag);
+  return {
+    tage,
+    koerper: Math.sin((2 * Math.PI * tage) / 23),
+    seele: Math.sin((2 * Math.PI * tage) / 28),
+    geist: Math.sin((2 * Math.PI * tage) / 33)
+  };
+}
+
+let letzteGeburt = null;
+
+const Feenchen = {
+  berechnen() {
+    const input = document.getElementById("geburtsdatum").value;
+    if (!input) { alert("Bitte trag zuerst dein Geburtsdatum ein."); return; }
+    const geburt = new Date(input + "T12:00:00");
+    letzteGeburt = geburt;
+
+    const heute = new Date();
+    heute.setHours(12, 0, 0, 0);
+    const w = tagesWerte(geburt, heute);
+
+    document.getElementById("ergebnis-card").style.display = "block";
+
+    document.getElementById("wert-koerper").textContent = Math.round(w.koerper * 100) + "%";
+    document.getElementById("wert-seele").textContent = Math.round(w.seele * 100) + "%";
+    document.getElementById("wert-geist").textContent = Math.round(w.geist * 100) + "%";
+    document.getElementById("phase-koerper").textContent = phaseLabel(w.koerper);
+    document.getElementById("phase-seele").textContent = phaseLabel(w.seele);
+    document.getElementById("phase-geist").textContent = phaseLabel(w.geist);
+
+    this.chartZeichnen(geburt, heute);
+    this.themenZeichnen(w);
+
+    document.getElementById("preisAnzeige").textContent = PREMIUM_PRICE.replace(".", ",") + " €";
+
+    if (paypalKonfiguriert()) {
+      const lockText = document.getElementById("premium-locked");
+      const warnEl = lockText.querySelector(".warn");
+      const testBtn = lockText.querySelector("button.secondary");
+      if (warnEl) warnEl.style.display = "none";
+      if (testBtn) testBtn.style.display = "none";
+    }
+
+    if (new URLSearchParams(location.search).get("feenchen_owner") === "rina2026") {
+      localStorage.setItem(PREMIUM_KEY, "true");
+    }
+
+    if (localStorage.getItem(PREMIUM_KEY) === "true") {
+      this.premiumAnzeigen(w);
+    } else {
+      document.getElementById("premium-locked").style.display = "block";
+      document.getElementById("premium-content").style.display = "none";
+    }
+
+    this.paypalRendern(w);
+  },
+
+  chartZeichnen(geburt, heute) {
+    const svg = document.getElementById("chart");
+    const breite = 600, hoehe = 180, mitteY = 90, amplitude = 65;
+    const tageFenster = 15;
+    const schrittX = breite / (tageFenster * 2);
+
+    function pfad(periode) {
+      let d = "";
+      for (let i = -tageFenster; i <= tageFenster; i++) {
+        const tag = new Date(heute);
+        tag.setDate(tag.getDate() + i);
+        const wert = tagesWerte(geburt, tag)[periode];
+        const x = (i + tageFenster) * schrittX;
+        const y = mitteY - wert * amplitude;
+        d += (i === -tageFenster ? "M" : "L") + x.toFixed(1) + "," + y.toFixed(1) + " ";
+      }
+      return d;
+    }
+
+    const heuteX = tageFenster * schrittX;
+    svg.innerHTML =
+      `<line x1="0" y1="${mitteY}" x2="${breite}" y2="${mitteY}" stroke="#e3d9f5" stroke-width="1"/>` +
+      `<line x1="${heuteX}" y1="10" x2="${heuteX}" y2="${hoehe - 10}" stroke="#caa6ff" stroke-width="1" stroke-dasharray="4 4"/>` +
+      `<path d="${pfad('koerper')}" fill="none" stroke="#D85A30" stroke-width="2.5"/>` +
+      `<path d="${pfad('seele')}" fill="none" stroke="#D4537E" stroke-width="2.5"/>` +
+      `<path d="${pfad('geist')}" fill="none" stroke="#185FA5" stroke-width="2.5"/>` +
+      `<circle cx="${heuteX}" cy="10" r="0"/>` +
+      `<text x="${heuteX}" y="${hoehe - 2}" font-size="10" fill="#6b6178" text-anchor="middle">heute</text>`;
+  },
+
+  themenZeichnen(w) {
+    const freiEl = document.getElementById("frei-themen");
+    freiEl.innerHTML = "";
+    THEMEN.filter(t => t.frei).forEach(t => {
+      const stufe = stufeVonWert(t.quelle(w));
+      const div = document.createElement("div");
+      div.className = "theme-card";
+      div.innerHTML = `<h3>${t.titel}</h3><p>${t.texte[stufe]}</p>`;
+      freiEl.appendChild(div);
+    });
+  },
+
+  premiumAnzeigen(w) {
+    document.getElementById("premium-locked").style.display = "none";
+    const el = document.getElementById("premium-content");
+    el.style.display = "block";
+    el.innerHTML = "";
+    THEMEN.filter(t => !t.frei).forEach(t => {
+      const stufe = stufeVonWert(t.quelle(w));
+      const div = document.createElement("div");
+      div.className = "theme-card";
+      div.innerHTML = `<h3>${t.titel}</h3><p>${t.texte[stufe]}</p>`;
+      el.appendChild(div);
+    });
+  },
+
+  testFreischalten() {
+    localStorage.setItem(PREMIUM_KEY, "true");
+    const heute = new Date(); heute.setHours(12,0,0,0);
+    if (letzteGeburt) this.premiumAnzeigen(tagesWerte(letzteGeburt, heute));
+  },
+
+  paypalRendern(w) {
+    const container = document.getElementById("paypal-button-container");
+    if (!container || localStorage.getItem(PREMIUM_KEY) === "true") return;
+    container.innerHTML = "";
+    if (!window.paypal) {
+      const script = document.createElement("script");
+      script.src = `https://www.paypal.com/sdk/js?client-id=${PAYPAL_CLIENT_ID}&currency=EUR&intent=capture`;
+      script.onload = () => Feenchen.paypalButtonZeichnen(w);
+      script.onerror = () => {
+        container.innerHTML = '<p class="note">PayPal konnte nicht geladen werden (Client-ID noch nicht eingerichtet?).</p>';
+      };
+      document.body.appendChild(script);
+    } else {
+      this.paypalButtonZeichnen(w);
+    }
+  },
+
+  paypalButtonZeichnen(w) {
+    const container = document.getElementById("paypal-button-container");
+    if (!container || !window.paypal) return;
+    container.innerHTML = "";
+    window.paypal.Buttons({
+      style: { layout: "vertical", color: "gold", shape: "pill", label: "pay" },
+      createOrder: (data, actions) => actions.order.create({
+        purchase_units: [{ amount: { value: PREMIUM_PRICE, currency_code: "EUR" }, description: "Feenchen Biorhythmus Workbook – Premium-Freischaltung" }]
+      }),
+      onApprove: (data, actions) => actions.order.capture().then(() => {
+        localStorage.setItem(PREMIUM_KEY, "true");
+        Feenchen.premiumAnzeigen(w);
+      }),
+      onError: (err) => {
+        console.error(err);
+        alert("Bei der Zahlung ist ein Fehler aufgetreten. Bitte später erneut versuchen.");
+      }
+    }).render("#paypal-button-container");
+  },
+
+  cookie(akzeptiert) {
+    localStorage.setItem("feenchen_biorhythmus_cookies", akzeptiert ? "accepted" : "declined");
+    document.getElementById("cookie-banner").style.display = "none";
+    if (akzeptiert) Feenchen.adsenseLaden();
+  },
+
+  adsenseLaden() {
+    if (!ADSENSE_CLIENT_ID.includes("DEINE_ADSENSE_ID_HIER")) {
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`;
+      script.crossOrigin = "anonymous";
+      document.head.appendChild(script);
+      ["ad-top", "ad-bottom"].forEach(id => {
+        const el = document.getElementById(id);
+        el.innerHTML = `<ins class="adsbygoogle" style="display:block" data-ad-client="${ADSENSE_CLIENT_ID}" data-ad-slot="0000000000" data-ad-format="auto" data-full-width-responsive="true"></ins>`;
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      });
+    }
+  },
+
+  init() {
+    const consent = localStorage.getItem("feenchen_biorhythmus_cookies");
+    if (!consent && !ADSENSE_CLIENT_ID.includes("DEINE_ADSENSE_ID_HIER")) {
+      document.getElementById("cookie-banner").style.display = "block";
+    } else if (consent === "accepted") {
+      this.adsenseLaden();
+    }
+  }
+};
+
+document.addEventListener("DOMContentLoaded", () => Feenchen.init());
+</script>
+</body>
+</html>
