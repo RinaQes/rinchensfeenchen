@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Alle Feenchen-Links – RinchensFeenchen</title>
+  <meta name="description" content="Alle offiziellen Links von Rinchens Feenchen auf einen Blick: Hauptseite, Bibliothek, Tools, Shop und Kontakt." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #fdf9ff; --accent: #caa6ff; --accent2: #b5f5e3; --text: #2b2236; --gold: #f7e4b5; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Nunito", system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at top, #fdf1ff 0%, #fdf9ff 45%, #ecf8ff 100%);
+      color: var(--text); line-height: 1.6; min-height: 100vh;
+    }
+    .wrapper { max-width: 760px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    a.back { display: inline-block; margin-bottom: 1.5rem; color: var(--text); text-decoration: none; font-size: 0.9rem; opacity: 0.7; }
+    a.back:hover { opacity: 1; }
+    header { text-align: center; padding: 1rem 1rem 2rem; }
+    .tagline { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.2em; color: rgba(43,34,54,0.6); margin-bottom: 0.6rem; }
+    header h1 { font-family: "Playfair Display", serif; font-size: clamp(2rem, 5vw, 2.6rem); }
+    header p.sub { max-width: 520px; margin: 1rem auto 0; font-style: italic; color: rgba(43,34,54,0.75); }
+    .cover-frame { display: flex; justify-content: center; margin: 2rem 0; }
+    .cover-frame img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; box-shadow: 0 12px 30px rgba(43,34,54,0.18); }
+
+    section.group { margin-top: 2.2rem; }
+    section.group h2 {
+      font-family: "Playfair Display", serif; font-size: 1.2rem; margin-bottom: 0.9rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .link-card {
+      display: flex; flex-direction: column; gap: 2px; background: rgba(255,255,255,0.85);
+      border: 1px solid rgba(202,166,255,0.3); border-radius: 16px; padding: 0.9rem 1.2rem;
+      margin-bottom: 0.7rem; text-decoration: none; color: var(--text);
+      box-shadow: 0 6px 18px rgba(43,34,54,0.06); transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+    .link-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(43,34,54,0.12); }
+    .link-card .title { font-weight: 700; font-size: 0.98rem; }
+    .link-card .desc { font-size: 0.85rem; color: rgba(43,34,54,0.7); }
+    .link-card .badge {
+      display: inline-block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em;
+      padding: 2px 9px; border-radius: 999px; background: rgba(181,245,227,0.35); color: #2c6b53;
+      font-weight: 700; margin-top: 4px; align-self: flex-start;
+    }
+    .link-card .badge.price { background: rgba(247,228,181,0.5); color: #7a5c17; }
+
+    footer { text-align: center; font-size: 0.85rem; color: rgba(43, 34, 54, 0.6); margin-top: 2.5rem; }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <a class="back" href="zuhause.html">← Zurück zur Feenchen-Bibliothek</a>
+
+    <header>
+      <div class="tagline">Verzeichnis</div>
+      <h1>Alle Feenchen-Links ✶</h1>
+      <p class="sub">Ein kleines Verzeichnis mit allem, was zu Rinchens Feenchen gehört – zum Weitergeben, Merken oder einfach Stöbern.</p>
+    </header>
+
+    <div class="cover-frame">
+      <img src="assets/feenchen-logo.jpg" alt="Feenchen Logo" />
+    </div>
+
+    <section class="group">
+      <h2>🏠 Hauptseiten</h2>
+      <a class="link-card" href="index.html">
+        <span class="title">Feenchen – Begegnungs- &amp; Wissensort</span>
+        <span class="desc">Die Startseite mit allen Bereichen: Ort, Wissen, Begegnung, Tools und mehr.</span>
+      </a>
+      <a class="link-card" href="zuhause.html">
+        <span class="title">Feenchen-Bibliothek &amp; Wunsch-Werkstatt</span>
+        <span class="desc">Vollständige Übersicht aller Downloads, Produkte und persönlichen Anfragen.</span>
+      </a>
+    </section>
+
+    <section class="group">
+      <h2>🛠️ Tools zum Ausprobieren</h2>
+      <a class="link-card" href="song-beschreiber.html">
+        <span class="title">Song-Beschreiber</span>
+        <span class="desc">Analysiert Musikdateien (Tempo, Tonart, Stimmung) und erstellt Beschreibungstext + Tags.</span>
+        <span class="badge price">Basis kostenlos · Details ab 4,99 €</span>
+      </a>
+      <a class="link-card" href="song-gedicht-tool.html">
+        <span class="title">Songtext &amp; Gedicht Tool</span>
+        <span class="desc">Erstellt aus Thema, Stimmung und Reimschema einen Songtext- oder Gedicht-Entwurf.</span>
+        <span class="badge price">Vorschau kostenlos · voller Text ab 2,99 €</span>
+      </a>
+      <a class="link-card" href="biorhythmus.html">
+        <span class="title">Biorhythmus Workbook (Tool)</span>
+        <span class="desc">Berechnet aus deinem Geburtsdatum Körper-, Seelen- und Geistrhythmus.</span>
+        <span class="badge price">2 Auswertungen kostenlos · alle 40 ab 3,99 €</span>
+      </a>
+    </section>
+
+    <section class="group">
+      <h2>🛍️ Feenchen-Schatz (PDF-Produkte)</h2>
+      <a class="link-card" href="schaetze/pc-pflegezauber.html">
+        <span class="title">Der PC-Pflegezauber</span>
+        <span class="desc">Beraterpfad in fünf Schritten plus kleines Lexikon aller Tastenkombinationen.</span>
+        <span class="badge price">2,50 €</span>
+      </a>
+      <a class="link-card" href="schaetze/biorhythmus-workbook.html">
+        <span class="title">Biorhythmus Workbook &amp; Hefte</span>
+        <span class="desc">Drei Altersversionen: Erwachsene, 3–6 Jahre und 6–14 Jahre.</span>
+        <span class="badge price">ab 1,50 €</span>
+      </a>
+    </section>
+
+    <section class="group">
+      <h2>💬 Kontakt &amp; Zahlung</h2>
+      <a class="link-card" href="https://t.me/RinaRitasFeenchenWelttetris_bot" target="_blank" rel="noopener">
+        <span class="title">Feenchen-Bot auf Telegram</span>
+        <span class="desc">Willkommensnachricht und direkte persönliche Rückmeldung nach dem Kauf.</span>
+      </a>
+      <a class="link-card" href="https://paypal.me/rinchensfeenchen" target="_blank" rel="noopener">
+        <span class="title">PayPal.me</span>
+        <span class="desc">Der Zahlungslink für alle Feenchen-Produkte.</span>
+      </a>
+    </section>
+
+    <footer>
+      Feenchen · Ein Begegnungs- &amp; Wissensort voller leiser Feenmagie.
+    </footer>
+  </div>
+</body>
+
+</html>
