@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Widerrufsformular – RinchensFeenchen</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #fdf9ff; --accent: #caa6ff; --gold: #f7e4b5; --text: #2b2236; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Nunito", system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at top, #fdf1ff 0%, #fdf9ff 45%, #ecf8ff 100%);
+      color: var(--text); line-height: 1.7; min-height: 100vh;
+    }
+    .wrapper { max-width: 640px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    a.back { display: inline-block; margin-bottom: 1.5rem; color: var(--text); text-decoration: none; font-size: 0.9rem; opacity: 0.7; }
+    a.back:hover { opacity: 1; }
+    h1 { font-family: "Playfair Display", serif; font-size: 1.9rem; margin-bottom: 0.5rem; }
+    p.lede { font-size: 0.9rem; color: rgba(43,34,54,0.75); font-style: italic; margin-bottom: 1.5rem; }
+    section {
+      background: rgba(255,255,255,0.85); border: 1px solid rgba(202,166,255,0.3);
+      border-radius: 16px; padding: 1.5rem 1.75rem; margin-bottom: 1.2rem;
+    }
+    label { display: block; font-size: 0.85rem; color: rgba(43,34,54,0.75); margin: 14px 0 6px; }
+    label:first-child { margin-top: 0; }
+    input[type=text], input[type=date], input[type=email], textarea {
+      width: 100%; background: #fff; border: 1px solid rgba(202,166,255,0.4); color: var(--text);
+      font-family: "Nunito", sans-serif; font-size: 0.95rem; padding: 10px 12px; border-radius: 10px;
+    }
+    textarea { min-height: 80px; resize: vertical; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; justify-content: center;
+      background: linear-gradient(135deg, var(--accent), var(--gold)); color: var(--text);
+      border: none; border-radius: 100px; font-weight: 600; font-size: 0.95rem;
+      padding: 12px 22px; cursor: pointer; margin-top: 18px; width: 100%;
+    }
+    .btn.secondary { background: transparent; border: 1px solid rgba(202,166,255,0.6); }
+    .note { font-size: 0.78rem; color: rgba(43,34,54,0.6); margin-top: 10px; }
+    footer { text-align: center; font-size: 0.85rem; color: rgba(43, 34, 54, 0.6); margin-top: 2.5rem; }
+    footer a { margin: 0 0.4rem; color: var(--text); }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <a class="back" href="index.html">← Zurück zu Feenchen</a>
+    <h1>Widerrufsformular</h1>
+    <p class="lede">Wenn du einen Kauf widerrufen möchtest, fülle einfach die Felder aus und
+    schick mir das Formular direkt per E-Mail – rechtlicher Hintergrund dazu steht in der
+    <a href="widerruf.html">Widerrufsbelehrung</a>.</p>
+
+    <section>
+      <label for="an">An</label>
+      <input type="text" id="an" value="Irina Rita Buchmann, Freier Weg 1, 68305 Mannheim-Waldhof, rinchensfeenchen@web.de" readonly>
+
+      <label for="produkt">Ich widerrufe den Kauf von (Produktname)</label>
+      <input type="text" id="produkt" placeholder="z. B. Der PC-Pflegezauber">
+
+      <label for="datum">Bestellt am</label>
+      <input type="date" id="datum">
+
+      <label for="name">Mein Name</label>
+      <input type="text" id="name" placeholder="Vor- und Nachname">
+
+      <label for="email">Meine E-Mail (für die Rückerstattung)</label>
+      <input type="email" id="email" placeholder="deine@email.de">
+
+      <label for="anmerkung">Anmerkung (optional)</label>
+      <textarea id="anmerkung" placeholder="Möchtest du noch etwas dazu sagen?"></textarea>
+
+      <button class="btn" onclick="Widerruf.senden()">✶ Als E-Mail versenden ✶</button>
+      <button class="btn secondary" onclick="window.print()">Als PDF drucken/speichern</button>
+      <p class="note">Der Button öffnet dein E-Mail-Programm mit einem fertig ausgefüllten
+      Entwurf – du musst nur noch auf Senden klicken.</p>
+    </section>
+
+    <footer>
+      <a href="impressum.html">Impressum</a>·
+      <a href="datenschutz.html">Datenschutz</a>·
+      <a href="widerruf.html">Widerruf</a>
+    </footer>
+  </div>
+
+<script>
+const Widerruf = {
+  senden() {
+    const produkt = document.getElementById('produkt').value || '____________';
+    const datum = document.getElementById('datum').value || '____________';
+    const name = document.getElementById('name').value || '____________';
+    const email = document.getElementById('email').value || '____________';
+    const anmerkung = document.getElementById('anmerkung').value;
+
+    const body =
+`Hiermit widerrufe ich den von mir abgeschlossenen Vertrag über den Kauf des folgenden PDFs:
+${produkt}
+
+Bestellt am: ${datum}
+Name: ${name}
+E-Mail für Rückerstattung: ${email}
+${anmerkung ? '\nAnmerkung: ' + anmerkung : ''}`;
+
+    const link = 'mailto:rinchensfeenchen@web.de?subject=' +
+      encodeURIComponent('Widerruf: ' + produkt) +
+      '&body=' + encodeURIComponent(body);
+    window.location.href = link;
+  }
+};
+</script>
+</body>
+
+</html>

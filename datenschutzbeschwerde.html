@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Datenschutz-Anfrage & Beschwerde – RinchensFeenchen</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #fdf9ff; --accent: #caa6ff; --gold: #f7e4b5; --text: #2b2236; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Nunito", system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at top, #fdf1ff 0%, #fdf9ff 45%, #ecf8ff 100%);
+      color: var(--text); line-height: 1.7; min-height: 100vh;
+    }
+    .wrapper { max-width: 660px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    a.back { display: inline-block; margin-bottom: 1.5rem; color: var(--text); text-decoration: none; font-size: 0.9rem; opacity: 0.7; }
+    a.back:hover { opacity: 1; }
+    h1 { font-family: "Playfair Display", serif; font-size: 1.85rem; margin-bottom: 0.5rem; }
+    h2 { font-family: "Playfair Display", serif; font-size: 1.1rem; margin: 1.4rem 0 0.5rem; }
+    p.lede { font-size: 0.9rem; color: rgba(43,34,54,0.75); font-style: italic; margin-bottom: 1.5rem; }
+    section {
+      background: rgba(255,255,255,0.85); border: 1px solid rgba(202,166,255,0.3);
+      border-radius: 16px; padding: 1.5rem 1.75rem; margin-bottom: 1.2rem;
+    }
+    p { font-size: 0.92rem; margin-bottom: 0.6rem; }
+    label { display: block; font-size: 0.85rem; color: rgba(43,34,54,0.75); margin: 14px 0 6px; }
+    label:first-child { margin-top: 0; }
+    input[type=text], input[type=email], select, textarea {
+      width: 100%; background: #fff; border: 1px solid rgba(202,166,255,0.4); color: var(--text);
+      font-family: "Nunito", sans-serif; font-size: 0.95rem; padding: 10px 12px; border-radius: 10px;
+    }
+    textarea { min-height: 100px; resize: vertical; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; justify-content: center;
+      background: linear-gradient(135deg, var(--accent), var(--gold)); color: var(--text);
+      border: none; border-radius: 100px; font-weight: 600; font-size: 0.95rem;
+      padding: 12px 22px; cursor: pointer; margin-top: 18px; width: 100%;
+    }
+    .note { font-size: 0.78rem; color: rgba(43,34,54,0.6); margin-top: 10px; }
+    .highlight { background: rgba(247,228,181,0.3); border-radius: 10px; padding: 0.9rem 1.1rem; font-size: 0.86rem; }
+    footer { text-align: center; font-size: 0.85rem; color: rgba(43, 34, 54, 0.6); margin-top: 2.5rem; }
+    footer a { margin: 0 0.4rem; color: var(--text); }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <a class="back" href="index.html">← Zurück zu Feenchen</a>
+    <h1>Datenschutz-Anfrage &amp; Beschwerde</h1>
+    <p class="lede">Für Auskunft, Berichtigung, Löschung oder eine Beschwerde zu deinen Daten –
+    einfach ausfüllen und direkt an mich senden.</p>
+
+    <section>
+      <h2>Wie ich mit deinen Daten umgehe</h2>
+      <p>
+      Ich betreibe aktuell kein Kundenportal und speichere grundsätzlich keine dauerhaften Daten.
+      Kommunikation läuft über Telegram oder E-Mail. Sobald ein Kundenportal für individuelle
+      Analysen bereitsteht, werden Daten nur bei ausdrücklichem Wunsch gespeichert – und nur so
+      lange, wie es dir hilft oder dein Anliegen erfüllt wird. Details dazu stehen in der
+      <a href="datenschutz.html">Datenschutzerklärung</a>.
+      </p>
+    </section>
+
+    <section>
+      <h2>Dein Anliegen</h2>
+      <label for="art">Worum geht es?</label>
+      <select id="art">
+        <option value="Auskunft">Auskunft über gespeicherte Daten</option>
+        <option value="Berichtigung">Berichtigung falscher Daten</option>
+        <option value="Löschung">Löschung meiner Daten</option>
+        <option value="Widerspruch">Widerspruch gegen Datenverarbeitung</option>
+        <option value="Beschwerde">Beschwerde</option>
+        <option value="Sonstiges">Sonstiges</option>
+      </select>
+
+      <label for="name">Dein Name</label>
+      <input type="text" id="name" placeholder="Vor- und Nachname">
+
+      <label for="email">Deine E-Mail oder dein Telegram-Nutzername</label>
+      <input type="text" id="email" placeholder="deine@email.de oder @dein_telegram_name">
+
+      <label for="beschreibung">Beschreibung deines Anliegens</label>
+      <textarea id="beschreibung" placeholder="Was ist passiert, was möchtest du erreichen?"></textarea>
+
+      <button class="btn" onclick="Beschwerde.senden()">✶ An Irina senden ✶</button>
+      <p class="note">Öffnet dein E-Mail-Programm mit fertig ausgefülltem Entwurf. Ich melde mich
+      innerhalb angemessener Frist (in der Regel innerhalb eines Monats) zurück.</p>
+    </section>
+
+    <div class="highlight">
+    Falls du mit meiner Antwort nicht zufrieden bist, kannst du dich jederzeit zusätzlich direkt
+    bei der zuständigen Aufsichtsbehörde beschweren: <strong>Der Landesbeauftragte für den
+    Datenschutz und die Informationsfreiheit Baden-Württemberg</strong>, Königstraße 10a,
+    70173 Stuttgart, <a href="https://www.baden-wuerttemberg.datenschutz.de" target="_blank" rel="noopener">www.baden-wuerttemberg.datenschutz.de</a>.
+    </div>
+
+    <footer>
+      <a href="impressum.html">Impressum</a>·
+      <a href="datenschutz.html">Datenschutz</a>·
+      <a href="widerruf.html">Widerruf</a>
+    </footer>
+  </div>
+
+<script>
+const Beschwerde = {
+  senden() {
+    const art = document.getElementById('art').value;
+    const name = document.getElementById('name').value || '____________';
+    const kontakt = document.getElementById('email').value || '____________';
+    const beschreibung = document.getElementById('beschreibung').value || '____________';
+
+    const body =
+`Art des Anliegens: ${art}
+Name: ${name}
+Kontakt: ${kontakt}
+
+Beschreibung:
+${beschreibung}`;
+
+    const link = 'mailto:rinchensfeenchen@web.de?subject=' +
+      encodeURIComponent('Datenschutz-Anfrage: ' + art) +
+      '&body=' + encodeURIComponent(body);
+    window.location.href = link;
+  }
+};
+</script>
+</body>
+
+</html>
