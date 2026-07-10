@@ -124,6 +124,30 @@ window.FEENCHEN_CONTENT = {
       icon: "🔮",
       link: "schaetze/pc-pflegezauber.html",
       zeigeAufStartseite: true
+    },
+    {
+      titel: "Das Biorhythmus Workbook",
+      beschreibung: "Die drei Rhythmen im Detail, ein Zwei-Wochen-Tracker und acht Reflexionsfragen zu dir selbst. Mit kostenloser Vorschau.",
+      preis: "2,50 €",
+      icon: "📓",
+      link: "schaetze/biorhythmus-workbook.html#erwachsene",
+      zeigeAufStartseite: true
+    },
+    {
+      titel: "Mein Feenchen-Gefühle-Buch (3–6 Jahre)",
+      beschreibung: "Bunte Gefühle-Gesichter, drei kleine tierische Freunde und eine Mal-Seite – der Biorhythmus ganz einfach erklärt für die Kleinsten.",
+      preis: "1,50 €",
+      icon: "🧸",
+      link: "schaetze/biorhythmus-workbook.html#kinder-3-6",
+      zeigeAufStartseite: false
+    },
+    {
+      titel: "Mein Biorhythmus-Entdecker-Heft (6–14 Jahre)",
+      beschreibung: "Altersgerecht erklärt mit Beispielen aus Schule und Freundschaft, Wochen-Tracker und Entdecker-Fragen.",
+      preis: "2,50 €",
+      icon: "🔭",
+      link: "schaetze/biorhythmus-workbook.html#kinder-6-14",
+      zeigeAufStartseite: false
     }
     /* Neues Produkt? Einfach ein Objekt wie oben hier einfügen. */
   ],
