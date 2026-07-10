@@ -16,10 +16,27 @@
       background: radial-gradient(circle at top, #fdf1ff 0%, #fdf9ff 45%, #ecf8ff 100%);
       color: var(--text); line-height: 1.7; min-height: 100vh;
     }
+    .sparkles::before, .sparkles::after {
+      content: ""; position: fixed; inset: -50px; pointer-events: none;
+      background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.9) 0, rgba(255, 255, 255, 0) 55%),
+        radial-gradient(circle, rgba(247, 228, 181, 0.8) 0, rgba(247, 228, 181, 0) 55%);
+      background-size: 160px 160px, 220px 220px; background-position: 0 0, 60px 80px;
+      mix-blend-mode: screen; opacity: 0.55; animation: glitter 16s linear infinite; z-index: -1;
+    }
+    .sparkles::after { animation-duration: 22s; opacity: 0.35; }
+    @keyframes glitter {
+      0% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(-40px, 30px, 0); }
+      100% { transform: translate3d(0, 0, 0); }
+    }
+    .legal-header { text-align: center; margin-bottom: 1.5rem; }
+    .legal-header img { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; box-shadow: 0 8px 22px rgba(43,34,54,0.15); margin-bottom: 0.8rem; }
+    .legal-header .tag { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(43,34,54,0.55); }
     .wrapper { max-width: 680px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
     a.back { display: inline-block; margin-bottom: 1.5rem; color: var(--text); text-decoration: none; font-size: 0.9rem; opacity: 0.7; }
     a.back:hover { opacity: 1; }
-    h1 { font-family: "Playfair Display", serif; font-size: 2rem; margin-bottom: 1.5rem; }
+    h1 { font-family: "Playfair Display", serif; font-size: 2rem; margin-bottom: 1.5rem; text-align: center; }
     h2 { font-family: "Playfair Display", serif; font-size: 1.15rem; margin: 1.6rem 0 0.5rem; }
     h3 { font-size: 1rem; margin: 1.1rem 0 0.4rem; }
     p, li { margin-bottom: 0.55rem; font-size: 0.92rem; }
@@ -34,9 +51,13 @@
   </style>
 </head>
 
-<body>
+<body class="sparkles">
   <div class="wrapper">
     <a class="back" href="index.html">← Zurück zu Feenchen</a>
+    <div class="legal-header">
+      <img src="assets/feenchen-logo.jpg" alt="Feenchen Logo" />
+      <div class="tag">✶ Feenchen ✶</div>
+    </div>
     <h1>Datenschutzerklärung</h1>
 
     <section>
