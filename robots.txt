@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /schaetze/eigentuemer-downloads.html
+
+Sitemap: https://rinaqes.github.io/rinchensfeenchen/sitemap.xml
