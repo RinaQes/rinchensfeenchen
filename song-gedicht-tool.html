@@ -504,6 +504,11 @@ const Feenchen = {
       if (testBtn) testBtn.style.display = "none";
     }
 
+    // Eigentümer-Zugang: mit ?feenchen_owner=rina2026 in der URL alles kostenlos freischalten
+    if (new URLSearchParams(location.search).get("feenchen_owner") === "rina2026") {
+      localStorage.setItem("feenchen_songtext_premium", "true");
+    }
+
     // Premium-Bereich zurücksetzen, falls schon freigeschaltet in dieser Sitzung
     if (localStorage.getItem("feenchen_songtext_premium") === "true") {
       this.premiumAnzeigen();

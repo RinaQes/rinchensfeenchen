@@ -190,6 +190,11 @@ function renderPaypalButton() {
   }
 }
 
+// Eigentümer-Zugang: mit ?feenchen_owner=rina2026 in der URL alles kostenlos freischalten
+if (new URLSearchParams(location.search).get('feenchen_owner') === 'rina2026') {
+  localStorage.setItem(PREMIUM_KEY, 'true');
+}
+
 applyPremiumState();
 window.addEventListener('load', renderPaypalButton);
 
